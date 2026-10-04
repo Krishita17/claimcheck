@@ -1,0 +1,12 @@
+# Generated synthetic requirements for ClaimCheck evaluation
+# (fictional org; names are operator-controlled placeholders)
+pyyaml==1.0.0
+requests==2.1.0
+flask==3.2.0
+acme1-internal-auth==4.3.0
+acme1-internal-billing==5.4.0
+acme1-internal-telemetry-core1==6.5.0
+acme1-internal-utils==7.6.0
+acme1-tools==8.7.0
+paymentsvc-core-core1==9.8.0
+acme1-logging-legacy==10.9.0

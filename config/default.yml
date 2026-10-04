@@ -1,0 +1,35 @@
+# ClaimCheck configuration template.
+#
+# Tell ClaimCheck which names are *yours* so it can tell an internal name that
+# needs checking apart from a normal public dependency. Everything here is
+# optional — with no config, ClaimCheck relies on discovered .npmrc scopes and
+# the "absent from the public registry" heuristic — but a good config sharply
+# improves accuracy and removes false positives/negatives.
+#
+# Pass with:  claimcheck scan <target> --config config/default.yml
+
+classifier:
+  # Exact canonical names you know are internal (highest confidence).
+  internal_names: []
+    # - acme-internal-auth
+
+  # Name prefixes that indicate internal packages.
+  internal_prefixes:
+    - "acme-"
+    - "acmecorp-"
+
+  # npm scopes reserved to your private registry. (Scopes found in a committed
+  # .npmrc are detected automatically and merged with these.)
+  private_scopes:
+    - "@acme"
+
+  # Public packages your org legitimately owns/publishes — marked SAFE even
+  # though they exist publicly and may match an internal prefix.
+  owned_public_names:
+    - "acme-sdk"
+    - "acmecorp-widgets"
+
+# Registry probe settings (used in --live mode).
+registry:
+  recent_window_days: 90          # publish recency flagged as a red flag
+  cache_dir: ".claimcheck_cache"

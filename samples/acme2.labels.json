@@ -1,0 +1,170 @@
+[
+  {
+    "raw": "requests",
+    "ecosystem": "pypi",
+    "scope": null,
+    "category": "wellknown_public",
+    "true_classification": "external",
+    "true_verdict": "SAFE"
+  },
+  {
+    "raw": "pyyaml",
+    "ecosystem": "pypi",
+    "scope": null,
+    "category": "wellknown_public",
+    "true_classification": "external",
+    "true_verdict": "SAFE"
+  },
+  {
+    "raw": "flask",
+    "ecosystem": "pypi",
+    "scope": null,
+    "category": "wellknown_public",
+    "true_classification": "external",
+    "true_verdict": "SAFE"
+  },
+  {
+    "raw": "express",
+    "ecosystem": "npm",
+    "scope": null,
+    "category": "wellknown_public",
+    "true_classification": "external",
+    "true_verdict": "SAFE"
+  },
+  {
+    "raw": "react",
+    "ecosystem": "npm",
+    "scope": null,
+    "category": "wellknown_public",
+    "true_classification": "external",
+    "true_verdict": "SAFE"
+  },
+  {
+    "raw": "axios",
+    "ecosystem": "npm",
+    "scope": null,
+    "category": "wellknown_public",
+    "true_classification": "external",
+    "true_verdict": "SAFE"
+  },
+  {
+    "raw": "acme2-sdk",
+    "ecosystem": "pypi",
+    "scope": null,
+    "category": "owned_public",
+    "true_classification": "external",
+    "true_verdict": "SAFE"
+  },
+  {
+    "raw": "acme2corp-widgets",
+    "ecosystem": "npm",
+    "scope": null,
+    "category": "owned_public",
+    "true_classification": "external",
+    "true_verdict": "SAFE"
+  },
+  {
+    "raw": "acme2-internal-auth",
+    "ecosystem": "pypi",
+    "scope": null,
+    "category": "internal_claimable",
+    "true_classification": "internal",
+    "true_verdict": "CLAIMABLE"
+  },
+  {
+    "raw": "acme2-internal-billing",
+    "ecosystem": "pypi",
+    "scope": null,
+    "category": "internal_claimable",
+    "true_classification": "internal",
+    "true_verdict": "CLAIMABLE"
+  },
+  {
+    "raw": "acme2-internal-telemetry-svc2",
+    "ecosystem": "pypi",
+    "scope": null,
+    "category": "internal_claimable",
+    "true_classification": "internal",
+    "true_verdict": "CLAIMABLE"
+  },
+  {
+    "raw": "acme2corp-internal-ui",
+    "ecosystem": "npm",
+    "scope": null,
+    "category": "internal_claimable",
+    "true_classification": "internal",
+    "true_verdict": "CLAIMABLE"
+  },
+  {
+    "raw": "acme2corp-config-loader",
+    "ecosystem": "npm",
+    "scope": null,
+    "category": "internal_claimable",
+    "true_classification": "internal",
+    "true_verdict": "CLAIMABLE"
+  },
+  {
+    "raw": "@acme2/secrets",
+    "ecosystem": "npm",
+    "scope": "@acme2",
+    "category": "internal_protected",
+    "true_classification": "internal",
+    "true_verdict": "PROTECTED"
+  },
+  {
+    "raw": "@acme2/payments",
+    "ecosystem": "npm",
+    "scope": "@acme2",
+    "category": "internal_protected",
+    "true_classification": "internal",
+    "true_verdict": "PROTECTED"
+  },
+  {
+    "raw": "acme2-internal-utils",
+    "ecosystem": "pypi",
+    "scope": null,
+    "category": "internal_taken_squat",
+    "true_classification": "internal",
+    "true_verdict": "TAKEN-NOT-YOURS"
+  },
+  {
+    "raw": "acme2corp-internal-logger",
+    "ecosystem": "npm",
+    "scope": null,
+    "category": "internal_taken_squat",
+    "true_classification": "internal",
+    "true_verdict": "TAKEN-NOT-YOURS"
+  },
+  {
+    "raw": "acme2-tools",
+    "ecosystem": "pypi",
+    "scope": null,
+    "category": "looks_internal_public",
+    "true_classification": "internal",
+    "true_verdict": "TAKEN-NOT-YOURS"
+  },
+  {
+    "raw": "paymentsvc-core-svc2",
+    "ecosystem": "pypi",
+    "scope": null,
+    "category": "hard_internal_no_signal_unclaimed",
+    "true_classification": "internal",
+    "true_verdict": "CLAIMABLE"
+  },
+  {
+    "raw": "datastore-sync-layer",
+    "ecosystem": "npm",
+    "scope": null,
+    "category": "hard_internal_no_signal_squatted",
+    "true_classification": "internal",
+    "true_verdict": "TAKEN-NOT-YOURS"
+  },
+  {
+    "raw": "acme2-logging-legacy",
+    "ecosystem": "pypi",
+    "scope": null,
+    "category": "hard_external_prefix_collision",
+    "true_classification": "external",
+    "true_verdict": "SAFE"
+  }
+]

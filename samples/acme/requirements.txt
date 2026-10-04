@@ -1,0 +1,12 @@
+# Generated synthetic requirements for ClaimCheck evaluation
+# (fictional org; names are operator-controlled placeholders)
+pydantic==1.0.0
+requests==2.1.0
+flask==3.2.0
+acme-internal-auth==4.3.0
+acme-internal-billing==5.4.0
+acme-internal-telemetry-kit0==6.5.0
+acme-internal-utils==7.6.0
+acme-tools==8.7.0
+paymentsvc-core-kit0==9.8.0
+acme-logging-legacy==10.9.0

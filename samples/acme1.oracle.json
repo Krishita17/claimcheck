@@ -1,0 +1,71 @@
+{
+  "pypi": {
+    "pyyaml": {
+      "owner": "community",
+      "first_published": "2013-01-01",
+      "recently_published": false
+    },
+    "requests": {
+      "owner": "community",
+      "first_published": "2013-01-01",
+      "recently_published": false
+    },
+    "flask": {
+      "owner": "community",
+      "first_published": "2013-01-01",
+      "recently_published": false
+    },
+    "acme1-sdk": {
+      "owner": "acme1",
+      "first_published": "2021-03-01",
+      "recently_published": false
+    },
+    "acme1-internal-utils": {
+      "owner": "mallory",
+      "first_published": "2026-09-25",
+      "recently_published": true
+    },
+    "acme1-tools": {
+      "owner": "thirdparty-dev",
+      "first_published": "2018-06-01",
+      "recently_published": false
+    },
+    "acme1-logging-legacy": {
+      "owner": "oss-maintainer",
+      "first_published": "2016-02-01",
+      "recently_published": false
+    }
+  },
+  "npm": {
+    "lodash": {
+      "owner": "community",
+      "first_published": "2013-01-01",
+      "recently_published": false
+    },
+    "chalk": {
+      "owner": "community",
+      "first_published": "2013-01-01",
+      "recently_published": false
+    },
+    "express": {
+      "owner": "community",
+      "first_published": "2013-01-01",
+      "recently_published": false
+    },
+    "acme1corp-widgets": {
+      "owner": "acme1",
+      "first_published": "2021-03-01",
+      "recently_published": false
+    },
+    "acme1corp-internal-logger": {
+      "owner": "mallory",
+      "first_published": "2026-09-20",
+      "recently_published": true
+    },
+    "datastore-sync-layer": {
+      "owner": "mallory",
+      "first_published": "2026-09-18",
+      "recently_published": true
+    }
+  }
+}

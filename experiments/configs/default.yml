@@ -1,0 +1,15 @@
+# Reproducible benchmark configuration.
+#
+# The benchmark loads each synthetic org's own generated config
+# (samples/<slug>.config.json) and oracle (samples/<slug>.oracle.json), so this
+# file documents the fixed, deterministic parameters of a benchmark run.
+
+benchmark:
+  samples_dir: "samples"
+  results_dir: "results"
+  seeds: [0, 1, 2]          # one labeled org per seed (deterministic)
+
+# Regenerate everything end-to-end with:
+#   make data      # (re)writes samples/ from these seeds
+#   make bench     # scores the scanner against ground-truth labels
+#   make figures   # renders all README charts from results/

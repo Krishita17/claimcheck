@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# ClaimCheck local caches (registry responses cached during --live runs)
+.claimcheck_cache/
+*.cache
+
+# OS
+.DS_Store
+
+# Keep generated artifacts tracked so the repo renders from a clean clone,
+# but ignore scratch outputs:
+results/tmp/
+figures/tmp/

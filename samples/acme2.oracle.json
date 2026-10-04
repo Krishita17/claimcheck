@@ -1,0 +1,71 @@
+{
+  "pypi": {
+    "requests": {
+      "owner": "community",
+      "first_published": "2013-01-01",
+      "recently_published": false
+    },
+    "pyyaml": {
+      "owner": "community",
+      "first_published": "2013-01-01",
+      "recently_published": false
+    },
+    "flask": {
+      "owner": "community",
+      "first_published": "2013-01-01",
+      "recently_published": false
+    },
+    "acme2-sdk": {
+      "owner": "acme2",
+      "first_published": "2021-03-01",
+      "recently_published": false
+    },
+    "acme2-internal-utils": {
+      "owner": "mallory",
+      "first_published": "2026-09-25",
+      "recently_published": true
+    },
+    "acme2-tools": {
+      "owner": "thirdparty-dev",
+      "first_published": "2018-06-01",
+      "recently_published": false
+    },
+    "acme2-logging-legacy": {
+      "owner": "oss-maintainer",
+      "first_published": "2016-02-01",
+      "recently_published": false
+    }
+  },
+  "npm": {
+    "express": {
+      "owner": "community",
+      "first_published": "2013-01-01",
+      "recently_published": false
+    },
+    "react": {
+      "owner": "community",
+      "first_published": "2013-01-01",
+      "recently_published": false
+    },
+    "axios": {
+      "owner": "community",
+      "first_published": "2013-01-01",
+      "recently_published": false
+    },
+    "acme2corp-widgets": {
+      "owner": "acme2",
+      "first_published": "2021-03-01",
+      "recently_published": false
+    },
+    "acme2corp-internal-logger": {
+      "owner": "mallory",
+      "first_published": "2026-09-20",
+      "recently_published": true
+    },
+    "datastore-sync-layer": {
+      "owner": "mallory",
+      "first_published": "2026-09-18",
+      "recently_published": true
+    }
+  }
+}

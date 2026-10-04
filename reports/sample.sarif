@@ -1,0 +1,409 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "ClaimCheck",
+          "informationUri": "https://github.com/Krishita17/claimcheck",
+          "version": "0.1.0",
+          "rules": [
+            {
+              "id": "claimcheck/claimable-internal-name",
+              "name": "ClaimableInternalName",
+              "shortDescription": {
+                "text": "Internal package name is claimable on the public registry"
+              },
+              "fullDescription": {
+                "text": "An internal dependency name is unregistered on the public registry and the install configuration permits public fallback. An attacker could publish this name publicly and have it pulled into builds (dependency confusion)."
+              },
+              "helpUri": "https://github.com/Krishita17/claimcheck#remediation",
+              "defaultConfiguration": {
+                "level": "error"
+              }
+            },
+            {
+              "id": "claimcheck/taken-not-yours",
+              "name": "TakenNotYours",
+              "shortDescription": {
+                "text": "Internal name already public and not owned by you"
+              },
+              "fullDescription": {
+                "text": "An internal dependency name already exists on the public registry and is not owned by your organization \u2014 a possible existing squat. Investigate the owner and publish date."
+              },
+              "helpUri": "https://github.com/Krishita17/claimcheck#remediation",
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "claimcheck/protected-internal-name",
+              "name": "ProtectedInternalName",
+              "shortDescription": {
+                "text": "Internal name is unclaimed but protected by config"
+              },
+              "fullDescription": {
+                "text": "An internal dependency name is unregistered publicly but the scope is reserved / index pinned, preventing public fallback. Re-scan in CI because a config change re-opens the exposure."
+              },
+              "helpUri": "https://github.com/Krishita17/claimcheck#remediation",
+              "defaultConfiguration": {
+                "level": "note"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "claimcheck/claimable-internal-name",
+          "level": "error",
+          "message": {
+            "text": "CLAIMABLE: internal npm name 'acmecorp-config-loader'. Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/acme/Dockerfile"
+                },
+                "region": {
+                  "startLine": 3
+                }
+              }
+            }
+          ],
+          "properties": {
+            "priority": 1,
+            "classification": "internal",
+            "evidence": [
+              "classification: internal (matches internal prefix 'acmecorp-')",
+              "found in: samples/acme/Dockerfile:3 [Dockerfile]",
+              "public registry: NOT FOUND (src=mock)",
+              "fallback: unscoped name resolves against the default registry (public fallback possible)"
+            ]
+          }
+        },
+        {
+          "ruleId": "claimcheck/taken-not-yours",
+          "level": "warning",
+          "message": {
+            "text": "TAKEN-NOT-YOURS: internal npm name 'acmecorp-internal-logger'. Investigate: a public package with this name exists and is not yours (possible squat). Verify the owner and publish date; if malicious, report it to the registry and pin/replace the dependency."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/acme/.github/workflows/ci.yml"
+                },
+                "region": {
+                  "startLine": 8
+                }
+              }
+            }
+          ],
+          "properties": {
+            "priority": 1,
+            "classification": "internal",
+            "evidence": [
+              "classification: internal (matches internal prefix 'acmecorp-')",
+              "found in: samples/acme/.github/workflows/ci.yml:8 [ci]",
+              "public registry: EXISTS (owner=mallory, first_published=2026-09-20, recent=True, src=mock)",
+              "fallback: unscoped name resolves against the default registry (public fallback possible)"
+            ]
+          }
+        },
+        {
+          "ruleId": "claimcheck/claimable-internal-name",
+          "level": "error",
+          "message": {
+            "text": "CLAIMABLE: internal npm name 'acmecorp-internal-ui'. Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/acme/package.json"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "priority": 1,
+            "classification": "internal",
+            "evidence": [
+              "classification: internal (matches internal prefix 'acmecorp-')",
+              "found in: samples/acme/package.json:1 [package.json]",
+              "public registry: NOT FOUND (src=mock)",
+              "fallback: unscoped name resolves against the default registry (public fallback possible)"
+            ]
+          }
+        },
+        {
+          "ruleId": "claimcheck/claimable-internal-name",
+          "level": "error",
+          "message": {
+            "text": "CLAIMABLE: internal pypi name 'acme-internal-auth'. Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/acme/requirements.txt"
+                },
+                "region": {
+                  "startLine": 6
+                }
+              }
+            }
+          ],
+          "properties": {
+            "priority": 1,
+            "classification": "internal",
+            "evidence": [
+              "classification: internal (matches internal prefix 'acme-')",
+              "found in: samples/acme/requirements.txt:6 [requirements.txt]",
+              "public registry: NOT FOUND (src=mock)",
+              "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+            ]
+          }
+        },
+        {
+          "ruleId": "claimcheck/claimable-internal-name",
+          "level": "error",
+          "message": {
+            "text": "CLAIMABLE: internal pypi name 'acme-internal-billing'. Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/acme/requirements.txt"
+                },
+                "region": {
+                  "startLine": 7
+                }
+              }
+            }
+          ],
+          "properties": {
+            "priority": 1,
+            "classification": "internal",
+            "evidence": [
+              "classification: internal (matches internal prefix 'acme-')",
+              "found in: samples/acme/requirements.txt:7 [requirements.txt]",
+              "public registry: NOT FOUND (src=mock)",
+              "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+            ]
+          }
+        },
+        {
+          "ruleId": "claimcheck/claimable-internal-name",
+          "level": "error",
+          "message": {
+            "text": "CLAIMABLE: internal pypi name 'acme-internal-telemetry-kit0'. Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/acme/requirements.txt"
+                },
+                "region": {
+                  "startLine": 8
+                }
+              }
+            }
+          ],
+          "properties": {
+            "priority": 1,
+            "classification": "internal",
+            "evidence": [
+              "classification: internal (matches internal prefix 'acme-')",
+              "found in: samples/acme/requirements.txt:8 [requirements.txt]",
+              "public registry: NOT FOUND (src=mock)",
+              "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+            ]
+          }
+        },
+        {
+          "ruleId": "claimcheck/taken-not-yours",
+          "level": "warning",
+          "message": {
+            "text": "TAKEN-NOT-YOURS: internal pypi name 'acme-internal-utils'. Investigate: a public package with this name exists and is not yours (possible squat). Verify the owner and publish date; if malicious, report it to the registry and pin/replace the dependency."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/acme/requirements.txt"
+                },
+                "region": {
+                  "startLine": 9
+                }
+              }
+            }
+          ],
+          "properties": {
+            "priority": 1,
+            "classification": "internal",
+            "evidence": [
+              "classification: internal (matches internal prefix 'acme-')",
+              "found in: samples/acme/requirements.txt:9 [requirements.txt]",
+              "public registry: EXISTS (owner=mallory, first_published=2026-09-25, recent=True, src=mock)",
+              "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+            ]
+          }
+        },
+        {
+          "ruleId": "claimcheck/claimable-internal-name",
+          "level": "error",
+          "message": {
+            "text": "CLAIMABLE: internal pypi name 'paymentsvc-core-kit0'. Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/acme/requirements.txt"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "properties": {
+            "priority": 1,
+            "classification": "internal",
+            "evidence": [
+              "classification: internal (used in builds but absent from the public registry)",
+              "found in: samples/acme/requirements.txt:11 [requirements.txt]",
+              "public registry: NOT FOUND (src=mock)",
+              "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+            ]
+          }
+        },
+        {
+          "ruleId": "claimcheck/taken-not-yours",
+          "level": "warning",
+          "message": {
+            "text": "TAKEN-NOT-YOURS: internal pypi name 'acme-logging-legacy'. Investigate: a public package with this name exists and is not yours (possible squat). Verify the owner and publish date; if malicious, report it to the registry and pin/replace the dependency."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/acme/requirements.txt"
+                },
+                "region": {
+                  "startLine": 12
+                }
+              }
+            }
+          ],
+          "properties": {
+            "priority": 2,
+            "classification": "internal",
+            "evidence": [
+              "classification: internal (matches internal prefix 'acme-')",
+              "found in: samples/acme/requirements.txt:12 [requirements.txt]",
+              "public registry: EXISTS (owner=oss-maintainer, first_published=2016-02-01, recent=False, src=mock)",
+              "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+            ]
+          }
+        },
+        {
+          "ruleId": "claimcheck/taken-not-yours",
+          "level": "warning",
+          "message": {
+            "text": "TAKEN-NOT-YOURS: internal pypi name 'acme-tools'. Investigate: a public package with this name exists and is not yours (possible squat). Verify the owner and publish date; if malicious, report it to the registry and pin/replace the dependency."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/acme/requirements.txt"
+                },
+                "region": {
+                  "startLine": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "priority": 2,
+            "classification": "internal",
+            "evidence": [
+              "classification: internal (matches internal prefix 'acme-')",
+              "found in: samples/acme/requirements.txt:10 [requirements.txt]",
+              "public registry: EXISTS (owner=thirdparty-dev, first_published=2018-06-01, recent=False, src=mock)",
+              "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+            ]
+          }
+        },
+        {
+          "ruleId": "claimcheck/protected-internal-name",
+          "level": "note",
+          "message": {
+            "text": "PROTECTED: internal npm name '@acme/payments'. Exposure is mitigated by configuration (scope reserved / index pinned). Keep the config under review and re-scan in CI \u2014 a config change re-opens the exposure."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/acme/package.json"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "priority": 3,
+            "classification": "internal",
+            "evidence": [
+              "classification: internal (npm scope @acme is private)",
+              "found in: samples/acme/package.json:1 [package.json]",
+              "public registry: NOT FOUND (src=mock)",
+              "fallback: scope @acme pinned to private registry https://npm.acme.internal/ (.npmrc)"
+            ]
+          }
+        },
+        {
+          "ruleId": "claimcheck/protected-internal-name",
+          "level": "note",
+          "message": {
+            "text": "PROTECTED: internal npm name '@acme/secrets'. Exposure is mitigated by configuration (scope reserved / index pinned). Keep the config under review and re-scan in CI \u2014 a config change re-opens the exposure."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/acme/package.json"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "properties": {
+            "priority": 3,
+            "classification": "internal",
+            "evidence": [
+              "classification: internal (npm scope @acme is private)",
+              "found in: samples/acme/package.json:1 [package.json]",
+              "public registry: NOT FOUND (src=mock)",
+              "fallback: scope @acme pinned to private registry https://npm.acme.internal/ (.npmrc)"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+[project]
+name = "acme-app"
+version = "0.1.0"
+dependencies = [
+  "acme-sdk>=1.0",
+]

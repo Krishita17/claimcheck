@@ -1,0 +1,894 @@
+{
+  "target": "samples/acme",
+  "mode": "mock",
+  "findings": [
+    {
+      "name": {
+        "raw": "pydantic",
+        "normalized": "pydantic",
+        "ecosystem": "pypi",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/requirements.txt",
+            "line": 3,
+            "source_type": "requirements.txt"
+          }
+        ]
+      },
+      "classification": "external",
+      "registry": {
+        "exists": true,
+        "owner": "community",
+        "first_published": "2013-01-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "pypi",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+        ],
+        "exploitable": true
+      },
+      "verdict": "SAFE",
+      "priority": 4,
+      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
+      "evidence": [
+        "classification: external (well-known public package)",
+        "found in: samples/acme/requirements.txt:3 [requirements.txt]",
+        "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
+        "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+      ]
+    },
+    {
+      "name": {
+        "raw": "requests",
+        "normalized": "requests",
+        "ecosystem": "pypi",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/requirements.txt",
+            "line": 4,
+            "source_type": "requirements.txt"
+          }
+        ]
+      },
+      "classification": "external",
+      "registry": {
+        "exists": true,
+        "owner": "community",
+        "first_published": "2013-01-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "pypi",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+        ],
+        "exploitable": true
+      },
+      "verdict": "SAFE",
+      "priority": 4,
+      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
+      "evidence": [
+        "classification: external (well-known public package)",
+        "found in: samples/acme/requirements.txt:4 [requirements.txt]",
+        "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
+        "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+      ]
+    },
+    {
+      "name": {
+        "raw": "flask",
+        "normalized": "flask",
+        "ecosystem": "pypi",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/requirements.txt",
+            "line": 5,
+            "source_type": "requirements.txt"
+          }
+        ]
+      },
+      "classification": "external",
+      "registry": {
+        "exists": true,
+        "owner": "community",
+        "first_published": "2013-01-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "pypi",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+        ],
+        "exploitable": true
+      },
+      "verdict": "SAFE",
+      "priority": 4,
+      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
+      "evidence": [
+        "classification: external (well-known public package)",
+        "found in: samples/acme/requirements.txt:5 [requirements.txt]",
+        "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
+        "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+      ]
+    },
+    {
+      "name": {
+        "raw": "acme-internal-auth",
+        "normalized": "acme-internal-auth",
+        "ecosystem": "pypi",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/requirements.txt",
+            "line": 6,
+            "source_type": "requirements.txt"
+          }
+        ]
+      },
+      "classification": "internal",
+      "registry": {
+        "exists": false,
+        "owner": null,
+        "first_published": null,
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "pypi",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+        ],
+        "exploitable": true
+      },
+      "verdict": "CLAIMABLE",
+      "priority": 1,
+      "action": "Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public.",
+      "evidence": [
+        "classification: internal (matches internal prefix 'acme-')",
+        "found in: samples/acme/requirements.txt:6 [requirements.txt]",
+        "public registry: NOT FOUND (src=mock)",
+        "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+      ]
+    },
+    {
+      "name": {
+        "raw": "acme-internal-billing",
+        "normalized": "acme-internal-billing",
+        "ecosystem": "pypi",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/requirements.txt",
+            "line": 7,
+            "source_type": "requirements.txt"
+          }
+        ]
+      },
+      "classification": "internal",
+      "registry": {
+        "exists": false,
+        "owner": null,
+        "first_published": null,
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "pypi",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+        ],
+        "exploitable": true
+      },
+      "verdict": "CLAIMABLE",
+      "priority": 1,
+      "action": "Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public.",
+      "evidence": [
+        "classification: internal (matches internal prefix 'acme-')",
+        "found in: samples/acme/requirements.txt:7 [requirements.txt]",
+        "public registry: NOT FOUND (src=mock)",
+        "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+      ]
+    },
+    {
+      "name": {
+        "raw": "acme-internal-telemetry-kit0",
+        "normalized": "acme-internal-telemetry-kit0",
+        "ecosystem": "pypi",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/requirements.txt",
+            "line": 8,
+            "source_type": "requirements.txt"
+          }
+        ]
+      },
+      "classification": "internal",
+      "registry": {
+        "exists": false,
+        "owner": null,
+        "first_published": null,
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "pypi",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+        ],
+        "exploitable": true
+      },
+      "verdict": "CLAIMABLE",
+      "priority": 1,
+      "action": "Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public.",
+      "evidence": [
+        "classification: internal (matches internal prefix 'acme-')",
+        "found in: samples/acme/requirements.txt:8 [requirements.txt]",
+        "public registry: NOT FOUND (src=mock)",
+        "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+      ]
+    },
+    {
+      "name": {
+        "raw": "acme-internal-utils",
+        "normalized": "acme-internal-utils",
+        "ecosystem": "pypi",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/requirements.txt",
+            "line": 9,
+            "source_type": "requirements.txt"
+          }
+        ]
+      },
+      "classification": "internal",
+      "registry": {
+        "exists": true,
+        "owner": "mallory",
+        "first_published": "2026-09-25",
+        "recently_published": true,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "pypi",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+        ],
+        "exploitable": true
+      },
+      "verdict": "TAKEN-NOT-YOURS",
+      "priority": 1,
+      "action": "Investigate: a public package with this name exists and is not yours (possible squat). Verify the owner and publish date; if malicious, report it to the registry and pin/replace the dependency.",
+      "evidence": [
+        "classification: internal (matches internal prefix 'acme-')",
+        "found in: samples/acme/requirements.txt:9 [requirements.txt]",
+        "public registry: EXISTS (owner=mallory, first_published=2026-09-25, recent=True, src=mock)",
+        "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+      ]
+    },
+    {
+      "name": {
+        "raw": "acme-tools",
+        "normalized": "acme-tools",
+        "ecosystem": "pypi",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/requirements.txt",
+            "line": 10,
+            "source_type": "requirements.txt"
+          }
+        ]
+      },
+      "classification": "internal",
+      "registry": {
+        "exists": true,
+        "owner": "thirdparty-dev",
+        "first_published": "2018-06-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "pypi",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+        ],
+        "exploitable": true
+      },
+      "verdict": "TAKEN-NOT-YOURS",
+      "priority": 2,
+      "action": "Investigate: a public package with this name exists and is not yours (possible squat). Verify the owner and publish date; if malicious, report it to the registry and pin/replace the dependency.",
+      "evidence": [
+        "classification: internal (matches internal prefix 'acme-')",
+        "found in: samples/acme/requirements.txt:10 [requirements.txt]",
+        "public registry: EXISTS (owner=thirdparty-dev, first_published=2018-06-01, recent=False, src=mock)",
+        "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+      ]
+    },
+    {
+      "name": {
+        "raw": "paymentsvc-core-kit0",
+        "normalized": "paymentsvc-core-kit0",
+        "ecosystem": "pypi",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/requirements.txt",
+            "line": 11,
+            "source_type": "requirements.txt"
+          }
+        ]
+      },
+      "classification": "internal",
+      "registry": {
+        "exists": false,
+        "owner": null,
+        "first_published": null,
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "pypi",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+        ],
+        "exploitable": true
+      },
+      "verdict": "CLAIMABLE",
+      "priority": 1,
+      "action": "Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public.",
+      "evidence": [
+        "classification: internal (used in builds but absent from the public registry)",
+        "found in: samples/acme/requirements.txt:11 [requirements.txt]",
+        "public registry: NOT FOUND (src=mock)",
+        "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+      ]
+    },
+    {
+      "name": {
+        "raw": "acme-logging-legacy",
+        "normalized": "acme-logging-legacy",
+        "ecosystem": "pypi",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/requirements.txt",
+            "line": 12,
+            "source_type": "requirements.txt"
+          }
+        ]
+      },
+      "classification": "internal",
+      "registry": {
+        "exists": true,
+        "owner": "oss-maintainer",
+        "first_published": "2016-02-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "pypi",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+        ],
+        "exploitable": true
+      },
+      "verdict": "TAKEN-NOT-YOURS",
+      "priority": 2,
+      "action": "Investigate: a public package with this name exists and is not yours (possible squat). Verify the owner and publish date; if malicious, report it to the registry and pin/replace the dependency.",
+      "evidence": [
+        "classification: internal (matches internal prefix 'acme-')",
+        "found in: samples/acme/requirements.txt:12 [requirements.txt]",
+        "public registry: EXISTS (owner=oss-maintainer, first_published=2016-02-01, recent=False, src=mock)",
+        "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+      ]
+    },
+    {
+      "name": {
+        "raw": "acmecorp-config-loader",
+        "normalized": "acmecorp-config-loader",
+        "ecosystem": "npm",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/Dockerfile",
+            "line": 3,
+            "source_type": "Dockerfile"
+          }
+        ]
+      },
+      "classification": "internal",
+      "registry": {
+        "exists": false,
+        "owner": null,
+        "first_published": null,
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "unscoped name resolves against the default registry (public fallback possible)"
+        ],
+        "exploitable": true
+      },
+      "verdict": "CLAIMABLE",
+      "priority": 1,
+      "action": "Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public.",
+      "evidence": [
+        "classification: internal (matches internal prefix 'acmecorp-')",
+        "found in: samples/acme/Dockerfile:3 [Dockerfile]",
+        "public registry: NOT FOUND (src=mock)",
+        "fallback: unscoped name resolves against the default registry (public fallback possible)"
+      ]
+    },
+    {
+      "name": {
+        "raw": "acme-sdk",
+        "normalized": "acme-sdk",
+        "ecosystem": "pypi",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/pyproject.toml",
+            "line": 1,
+            "source_type": "pyproject.toml"
+          }
+        ]
+      },
+      "classification": "external",
+      "registry": {
+        "exists": true,
+        "owner": "acme",
+        "first_published": "2021-03-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "pypi",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+        ],
+        "exploitable": true
+      },
+      "verdict": "SAFE",
+      "priority": 4,
+      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
+      "evidence": [
+        "classification: external (org-owned public package)",
+        "found in: samples/acme/pyproject.toml:1 [pyproject.toml]",
+        "public registry: EXISTS (owner=acme, first_published=2021-03-01, recent=False, src=mock)",
+        "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+      ]
+    },
+    {
+      "name": {
+        "raw": "axios",
+        "normalized": "axios",
+        "ecosystem": "npm",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/package.json",
+            "line": 1,
+            "source_type": "package.json"
+          }
+        ]
+      },
+      "classification": "external",
+      "registry": {
+        "exists": true,
+        "owner": "community",
+        "first_published": "2013-01-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "unscoped name resolves against the default registry (public fallback possible)"
+        ],
+        "exploitable": true
+      },
+      "verdict": "SAFE",
+      "priority": 4,
+      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
+      "evidence": [
+        "classification: external (well-known public package)",
+        "found in: samples/acme/package.json:1 [package.json]",
+        "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
+        "fallback: unscoped name resolves against the default registry (public fallback possible)"
+      ]
+    },
+    {
+      "name": {
+        "raw": "chalk",
+        "normalized": "chalk",
+        "ecosystem": "npm",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/package.json",
+            "line": 1,
+            "source_type": "package.json"
+          }
+        ]
+      },
+      "classification": "external",
+      "registry": {
+        "exists": true,
+        "owner": "community",
+        "first_published": "2013-01-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "unscoped name resolves against the default registry (public fallback possible)"
+        ],
+        "exploitable": true
+      },
+      "verdict": "SAFE",
+      "priority": 4,
+      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
+      "evidence": [
+        "classification: external (well-known public package)",
+        "found in: samples/acme/package.json:1 [package.json]",
+        "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
+        "fallback: unscoped name resolves against the default registry (public fallback possible)"
+      ]
+    },
+    {
+      "name": {
+        "raw": "express",
+        "normalized": "express",
+        "ecosystem": "npm",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/package.json",
+            "line": 1,
+            "source_type": "package.json"
+          }
+        ]
+      },
+      "classification": "external",
+      "registry": {
+        "exists": true,
+        "owner": "community",
+        "first_published": "2013-01-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "unscoped name resolves against the default registry (public fallback possible)"
+        ],
+        "exploitable": true
+      },
+      "verdict": "SAFE",
+      "priority": 4,
+      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
+      "evidence": [
+        "classification: external (well-known public package)",
+        "found in: samples/acme/package.json:1 [package.json]",
+        "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
+        "fallback: unscoped name resolves against the default registry (public fallback possible)"
+      ]
+    },
+    {
+      "name": {
+        "raw": "acmecorp-widgets",
+        "normalized": "acmecorp-widgets",
+        "ecosystem": "npm",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/package.json",
+            "line": 1,
+            "source_type": "package.json"
+          }
+        ]
+      },
+      "classification": "external",
+      "registry": {
+        "exists": true,
+        "owner": "acme",
+        "first_published": "2021-03-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "unscoped name resolves against the default registry (public fallback possible)"
+        ],
+        "exploitable": true
+      },
+      "verdict": "SAFE",
+      "priority": 4,
+      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
+      "evidence": [
+        "classification: external (org-owned public package)",
+        "found in: samples/acme/package.json:1 [package.json]",
+        "public registry: EXISTS (owner=acme, first_published=2021-03-01, recent=False, src=mock)",
+        "fallback: unscoped name resolves against the default registry (public fallback possible)"
+      ]
+    },
+    {
+      "name": {
+        "raw": "acmecorp-internal-ui",
+        "normalized": "acmecorp-internal-ui",
+        "ecosystem": "npm",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/package.json",
+            "line": 1,
+            "source_type": "package.json"
+          }
+        ]
+      },
+      "classification": "internal",
+      "registry": {
+        "exists": false,
+        "owner": null,
+        "first_published": null,
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "unscoped name resolves against the default registry (public fallback possible)"
+        ],
+        "exploitable": true
+      },
+      "verdict": "CLAIMABLE",
+      "priority": 1,
+      "action": "Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public.",
+      "evidence": [
+        "classification: internal (matches internal prefix 'acmecorp-')",
+        "found in: samples/acme/package.json:1 [package.json]",
+        "public registry: NOT FOUND (src=mock)",
+        "fallback: unscoped name resolves against the default registry (public fallback possible)"
+      ]
+    },
+    {
+      "name": {
+        "raw": "@acme/secrets",
+        "normalized": "@acme/secrets",
+        "ecosystem": "npm",
+        "scope": "@acme",
+        "sources": [
+          {
+            "path": "samples/acme/package.json",
+            "line": 1,
+            "source_type": "package.json"
+          }
+        ]
+      },
+      "classification": "internal",
+      "registry": {
+        "exists": false,
+        "owner": null,
+        "first_published": null,
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": false,
+        "scope_reserved": true,
+        "pinned_index_only": false,
+        "evidence": [
+          "scope @acme pinned to private registry https://npm.acme.internal/ (.npmrc)"
+        ],
+        "exploitable": false
+      },
+      "verdict": "PROTECTED",
+      "priority": 3,
+      "action": "Exposure is mitigated by configuration (scope reserved / index pinned). Keep the config under review and re-scan in CI \u2014 a config change re-opens the exposure.",
+      "evidence": [
+        "classification: internal (npm scope @acme is private)",
+        "found in: samples/acme/package.json:1 [package.json]",
+        "public registry: NOT FOUND (src=mock)",
+        "fallback: scope @acme pinned to private registry https://npm.acme.internal/ (.npmrc)"
+      ]
+    },
+    {
+      "name": {
+        "raw": "@acme/payments",
+        "normalized": "@acme/payments",
+        "ecosystem": "npm",
+        "scope": "@acme",
+        "sources": [
+          {
+            "path": "samples/acme/package.json",
+            "line": 1,
+            "source_type": "package.json"
+          }
+        ]
+      },
+      "classification": "internal",
+      "registry": {
+        "exists": false,
+        "owner": null,
+        "first_published": null,
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": false,
+        "scope_reserved": true,
+        "pinned_index_only": false,
+        "evidence": [
+          "scope @acme pinned to private registry https://npm.acme.internal/ (.npmrc)"
+        ],
+        "exploitable": false
+      },
+      "verdict": "PROTECTED",
+      "priority": 3,
+      "action": "Exposure is mitigated by configuration (scope reserved / index pinned). Keep the config under review and re-scan in CI \u2014 a config change re-opens the exposure.",
+      "evidence": [
+        "classification: internal (npm scope @acme is private)",
+        "found in: samples/acme/package.json:1 [package.json]",
+        "public registry: NOT FOUND (src=mock)",
+        "fallback: scope @acme pinned to private registry https://npm.acme.internal/ (.npmrc)"
+      ]
+    },
+    {
+      "name": {
+        "raw": "datastore-sync-layer",
+        "normalized": "datastore-sync-layer",
+        "ecosystem": "npm",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/package.json",
+            "line": 1,
+            "source_type": "package.json"
+          }
+        ]
+      },
+      "classification": "external",
+      "registry": {
+        "exists": true,
+        "owner": "mallory",
+        "first_published": "2026-09-18",
+        "recently_published": true,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "unscoped name resolves against the default registry (public fallback possible)"
+        ],
+        "exploitable": true
+      },
+      "verdict": "SAFE",
+      "priority": 4,
+      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
+      "evidence": [
+        "classification: external (present on public registry, no internal signal)",
+        "found in: samples/acme/package.json:1 [package.json]",
+        "public registry: EXISTS (owner=mallory, first_published=2026-09-18, recent=True, src=mock)",
+        "fallback: unscoped name resolves against the default registry (public fallback possible)"
+      ]
+    },
+    {
+      "name": {
+        "raw": "acmecorp-internal-logger",
+        "normalized": "acmecorp-internal-logger",
+        "ecosystem": "npm",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/.github/workflows/ci.yml",
+            "line": 8,
+            "source_type": "ci"
+          }
+        ]
+      },
+      "classification": "internal",
+      "registry": {
+        "exists": true,
+        "owner": "mallory",
+        "first_published": "2026-09-20",
+        "recently_published": true,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "unscoped name resolves against the default registry (public fallback possible)"
+        ],
+        "exploitable": true
+      },
+      "verdict": "TAKEN-NOT-YOURS",
+      "priority": 1,
+      "action": "Investigate: a public package with this name exists and is not yours (possible squat). Verify the owner and publish date; if malicious, report it to the registry and pin/replace the dependency.",
+      "evidence": [
+        "classification: internal (matches internal prefix 'acmecorp-')",
+        "found in: samples/acme/.github/workflows/ci.yml:8 [ci]",
+        "public registry: EXISTS (owner=mallory, first_published=2026-09-20, recent=True, src=mock)",
+        "fallback: unscoped name resolves against the default registry (public fallback possible)"
+      ]
+    }
+  ],
+  "summary": {
+    "SAFE": 9,
+    "CLAIMABLE": 6,
+    "TAKEN-NOT-YOURS": 4,
+    "PROTECTED": 2
+  }
+}

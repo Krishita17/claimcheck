@@ -1,0 +1,10 @@
+# Core (required for offline/mock mode — the full pipeline runs with just these)
+PyYAML>=6.0
+matplotlib>=3.7
+
+# Dev / test
+pytest>=7.4
+
+# Optional: live registry probing against public PyPI/npm (Tier 2).
+# Uncomment or `pip install requests` to enable `--live` mode.
+# requests>=2.31

@@ -1,0 +1,14 @@
+{
+  "name": "acme-frontend",
+  "version": "0.1.0",
+  "dependencies": {
+    "axios": "^1.0.0",
+    "chalk": "^2.0.0",
+    "express": "^3.0.0",
+    "acmecorp-widgets": "^4.0.0",
+    "acmecorp-internal-ui": "^5.0.0",
+    "@acme/secrets": "^6.0.0",
+    "@acme/payments": "^7.0.0",
+    "datastore-sync-layer": "^8.0.0"
+  }
+}

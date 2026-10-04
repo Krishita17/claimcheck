@@ -1,0 +1,14 @@
+{
+  "internal_prefixes": [
+    "acme2-",
+    "acme2corp-"
+  ],
+  "private_scopes": [
+    "@acme2"
+  ],
+  "owned_public_names": [
+    "acme2-sdk",
+    "acme2corp-widgets"
+  ],
+  "internal_names": []
+}

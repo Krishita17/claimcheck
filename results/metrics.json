@@ -1,0 +1,100 @@
+{
+  "n_names": 63,
+  "classification_accuracy": 0.9048,
+  "verdict_accuracy": 0.9048,
+  "verdict_prf": {
+    "CLAIMABLE": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 18
+    },
+    "TAKEN-NOT-YOURS": {
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "support": 12
+    },
+    "PROTECTED": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 6
+    },
+    "SAFE": {
+      "precision": 0.8889,
+      "recall": 0.8889,
+      "f1": 0.8889,
+      "support": 27
+    }
+  },
+  "classification_prf": {
+    "internal": {
+      "precision": 0.9167,
+      "recall": 0.9167,
+      "f1": 0.9167,
+      "support": 36
+    },
+    "external": {
+      "precision": 0.8889,
+      "recall": 0.8889,
+      "f1": 0.8889,
+      "support": 27
+    }
+  },
+  "public_false_positive_rate": 0.1111,
+  "public_false_positives": [
+    "pypi:acme-logging-legacy",
+    "pypi:acme1-logging-legacy",
+    "pypi:acme2-logging-legacy"
+  ],
+  "verdict_distribution": {
+    "SAFE": 27,
+    "CLAIMABLE": 18,
+    "TAKEN-NOT-YOURS": 12,
+    "PROTECTED": 6
+  },
+  "by_ecosystem": {
+    "pypi": {
+      "SAFE": 12,
+      "CLAIMABLE": 12,
+      "TAKEN-NOT-YOURS": 9
+    },
+    "npm": {
+      "CLAIMABLE": 6,
+      "SAFE": 15,
+      "PROTECTED": 6,
+      "TAKEN-NOT-YOURS": 3
+    }
+  },
+  "by_source": {
+    "requirements.txt": {
+      "SAFE": 9,
+      "CLAIMABLE": 12,
+      "TAKEN-NOT-YOURS": 9
+    },
+    "Dockerfile": {
+      "CLAIMABLE": 3
+    },
+    "pyproject.toml": {
+      "SAFE": 3
+    },
+    "package.json": {
+      "SAFE": 15,
+      "CLAIMABLE": 3,
+      "PROTECTED": 6
+    },
+    "ci": {
+      "TAKEN-NOT-YOURS": 3
+    }
+  },
+  "fallback_impact": {
+    "claimable_exploitable": 18,
+    "protected": 6
+  },
+  "orgs": [
+    "acme",
+    "acme1",
+    "acme2"
+  ]
+}

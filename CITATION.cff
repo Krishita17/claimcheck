@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+title: "ClaimCheck: A Dependency-Confusion Exposure Checker for Internal Packages"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: "Choksi"
+    given-names: "Krishita Sanjay"
+repository-code: "https://github.com/Krishita17/claimcheck"
+abstract: >-
+  ClaimCheck is a defensive, read-only exposure-assessment tool that reads an
+  organization's internal dependency names from manifests, lockfiles,
+  registry-scope configs, CI files, and Dockerfiles, then checks each name
+  against the public PyPI and npm registries to determine whether an attacker
+  could claim it (dependency confusion). It produces a prioritized,
+  fallback-aware exposure report with a concrete remediation action per name.
+keywords:
+  - dependency-confusion
+  - supply-chain-security
+  - software-supply-chain
+  - pypi
+  - npm
+  - sca
+  - devsecops
+license: MIT
+version: 0.1.0
+date-released: "2026-10-03"

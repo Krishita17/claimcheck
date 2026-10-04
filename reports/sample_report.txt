@@ -1,0 +1,115 @@
+==============================================================================
+ClaimCheck exposure report  —  target: samples/acme  (mode: mock)
+==============================================================================
+Summary:  CLAIMABLE=6  TAKEN-NOT-YOURS=4  PROTECTED=2  SAFE=9
+
+PRIO     ECO   NAME                              SOURCE            REGISTRY              VERDICT
+------------------------------------------------------------------------------------------------
+CRITICAL npm   acmecorp-config-loader            Dockerfile        unclaimed             CLAIMABLE
+CRITICAL npm   acmecorp-internal-logger          ci                taken (mallory)       TAKEN-NOT-YOURS
+CRITICAL npm   acmecorp-internal-ui              package.json      unclaimed             CLAIMABLE
+CRITICAL pypi  acme-internal-auth                requirements.txt  unclaimed             CLAIMABLE
+CRITICAL pypi  acme-internal-billing             requirements.txt  unclaimed             CLAIMABLE
+CRITICAL pypi  acme-internal-telemetry-kit0      requirements.txt  unclaimed             CLAIMABLE
+CRITICAL pypi  acme-internal-utils               requirements.txt  taken (mallory)       TAKEN-NOT-YOURS
+CRITICAL pypi  paymentsvc-core-kit0              requirements.txt  unclaimed             CLAIMABLE
+HIGH     pypi  acme-logging-legacy               requirements.txt  taken (oss-maintainer)TAKEN-NOT-YOURS
+HIGH     pypi  acme-tools                        requirements.txt  taken (thirdparty-dev)TAKEN-NOT-YOURS
+MEDIUM   npm   @acme/payments                    package.json      unclaimed             PROTECTED
+MEDIUM   npm   @acme/secrets                     package.json      unclaimed             PROTECTED
+INFO     npm   acmecorp-widgets                  package.json      taken (acme)          SAFE
+INFO     npm   axios                             package.json      taken (community)     SAFE
+INFO     npm   chalk                             package.json      taken (community)     SAFE
+INFO     npm   datastore-sync-layer              package.json      taken (mallory)       SAFE
+INFO     npm   express                           package.json      taken (community)     SAFE
+INFO     pypi  acme-sdk                          pyproject.toml    taken (acme)          SAFE
+INFO     pypi  flask                             requirements.txt  taken (community)     SAFE
+INFO     pypi  pydantic                          requirements.txt  taken (community)     SAFE
+INFO     pypi  requests                          requirements.txt  taken (community)     SAFE
+
+Recommended actions (most urgent first):
+------------------------------------------------------------------------------
+[CRITICAL] acmecorp-config-loader (npm) -> CLAIMABLE
+    action: Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public.
+      - classification: internal (matches internal prefix 'acmecorp-')
+      - found in: samples/acme/Dockerfile:3 [Dockerfile]
+      - public registry: NOT FOUND (src=mock)
+      - fallback: unscoped name resolves against the default registry (public fallback possible)
+
+[CRITICAL] acmecorp-internal-logger (npm) -> TAKEN-NOT-YOURS
+    action: Investigate: a public package with this name exists and is not yours (possible squat). Verify the owner and publish date; if malicious, report it to the registry and pin/replace the dependency.
+      - classification: internal (matches internal prefix 'acmecorp-')
+      - found in: samples/acme/.github/workflows/ci.yml:8 [ci]
+      - public registry: EXISTS (owner=mallory, first_published=2026-09-20, recent=True, src=mock)
+      - fallback: unscoped name resolves against the default registry (public fallback possible)
+
+[CRITICAL] acmecorp-internal-ui (npm) -> CLAIMABLE
+    action: Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public.
+      - classification: internal (matches internal prefix 'acmecorp-')
+      - found in: samples/acme/package.json:1 [package.json]
+      - public registry: NOT FOUND (src=mock)
+      - fallback: unscoped name resolves against the default registry (public fallback possible)
+
+[CRITICAL] acme-internal-auth (pypi) -> CLAIMABLE
+    action: Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public.
+      - classification: internal (matches internal prefix 'acme-')
+      - found in: samples/acme/requirements.txt:6 [requirements.txt]
+      - public registry: NOT FOUND (src=mock)
+      - fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes
+
+[CRITICAL] acme-internal-billing (pypi) -> CLAIMABLE
+    action: Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public.
+      - classification: internal (matches internal prefix 'acme-')
+      - found in: samples/acme/requirements.txt:7 [requirements.txt]
+      - public registry: NOT FOUND (src=mock)
+      - fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes
+
+[CRITICAL] acme-internal-telemetry-kit0 (pypi) -> CLAIMABLE
+    action: Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public.
+      - classification: internal (matches internal prefix 'acme-')
+      - found in: samples/acme/requirements.txt:8 [requirements.txt]
+      - public registry: NOT FOUND (src=mock)
+      - fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes
+
+[CRITICAL] acme-internal-utils (pypi) -> TAKEN-NOT-YOURS
+    action: Investigate: a public package with this name exists and is not yours (possible squat). Verify the owner and publish date; if malicious, report it to the registry and pin/replace the dependency.
+      - classification: internal (matches internal prefix 'acme-')
+      - found in: samples/acme/requirements.txt:9 [requirements.txt]
+      - public registry: EXISTS (owner=mallory, first_published=2026-09-25, recent=True, src=mock)
+      - fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes
+
+[CRITICAL] paymentsvc-core-kit0 (pypi) -> CLAIMABLE
+    action: Defensively register this name on the public registry now (a stub you control), and reserve the npm scope / pin the pip index so builds cannot fall back to public.
+      - classification: internal (used in builds but absent from the public registry)
+      - found in: samples/acme/requirements.txt:11 [requirements.txt]
+      - public registry: NOT FOUND (src=mock)
+      - fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes
+
+[HIGH] acme-logging-legacy (pypi) -> TAKEN-NOT-YOURS
+    action: Investigate: a public package with this name exists and is not yours (possible squat). Verify the owner and publish date; if malicious, report it to the registry and pin/replace the dependency.
+      - classification: internal (matches internal prefix 'acme-')
+      - found in: samples/acme/requirements.txt:12 [requirements.txt]
+      - public registry: EXISTS (owner=oss-maintainer, first_published=2016-02-01, recent=False, src=mock)
+      - fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes
+
+[HIGH] acme-tools (pypi) -> TAKEN-NOT-YOURS
+    action: Investigate: a public package with this name exists and is not yours (possible squat). Verify the owner and publish date; if malicious, report it to the registry and pin/replace the dependency.
+      - classification: internal (matches internal prefix 'acme-')
+      - found in: samples/acme/requirements.txt:10 [requirements.txt]
+      - public registry: EXISTS (owner=thirdparty-dev, first_published=2018-06-01, recent=False, src=mock)
+      - fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes
+
+[MEDIUM] @acme/payments (npm) -> PROTECTED
+    action: Exposure is mitigated by configuration (scope reserved / index pinned). Keep the config under review and re-scan in CI — a config change re-opens the exposure.
+      - classification: internal (npm scope @acme is private)
+      - found in: samples/acme/package.json:1 [package.json]
+      - public registry: NOT FOUND (src=mock)
+      - fallback: scope @acme pinned to private registry https://npm.acme.internal/ (.npmrc)
+
+[MEDIUM] @acme/secrets (npm) -> PROTECTED
+    action: Exposure is mitigated by configuration (scope reserved / index pinned). Keep the config under review and re-scan in CI — a config change re-opens the exposure.
+      - classification: internal (npm scope @acme is private)
+      - found in: samples/acme/package.json:1 [package.json]
+      - public registry: NOT FOUND (src=mock)
+      - fallback: scope @acme pinned to private registry https://npm.acme.internal/ (.npmrc)
+
