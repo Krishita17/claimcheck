@@ -22,6 +22,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
+try:
+    import yaml  # PyYAML is a core dependency
+except ImportError:  # pragma: no cover - yaml is required, but degrade gracefully
+    yaml = None
+
 from ..extract import make_name
 from ..schema import DependencyName, Ecosystem, SourceRef, SourceType
 
@@ -36,7 +41,11 @@ DEFAULT_FILENAMES = {
     "package.json": SourceType.PACKAGE_JSON,
     "package-lock.json": SourceType.PACKAGE_LOCK_JSON,
     "yarn.lock": SourceType.YARN_LOCK,
+    "pnpm-lock.yaml": SourceType.PNPM_LOCK,
+    "environment.yml": SourceType.ENVIRONMENT_YML,
+    "environment.yaml": SourceType.ENVIRONMENT_YML,
     ".npmrc": SourceType.NPMRC,
+    ".yarnrc.yml": SourceType.YARNRC_YML,
     "pip.conf": SourceType.PIP_CONF,
     "Dockerfile": SourceType.DOCKERFILE,
 }
@@ -311,8 +320,85 @@ def parse_yarn_lock(text: str, path: str) -> list[DependencyName]:
     return names
 
 
+def _pnpm_name_from_key(key: str) -> Optional[str]:
+    """Extract an npm package name from a pnpm-lock 'packages' key.
+
+    Handles v5 ('/@acme/billing/1.0.0', '/lodash/4.17.21') and v6+/v9
+    ('@acme/billing@1.0.0', 'lodash@4.17.21') spellings.
+    """
+    k = key.strip().lstrip("/")
+    if not k:
+        return None
+    if "@" in k and not k.startswith("@"):
+        # unscoped v6+: name@version
+        return k.split("@", 1)[0]
+    if k.startswith("@"):
+        # scoped. v6+: @scope/name@version ; v5: @scope/name/version
+        if k.count("@") >= 2:  # @scope/name@version
+            at = k.rfind("@")
+            return k[:at]
+        # v5 style: @scope/name/version -> drop the trailing /version
+        parts = k.split("/")
+        return "/".join(parts[:2]) if len(parts) >= 2 else k
+    # v5 unscoped: name/version
+    return k.split("/", 1)[0]
+
+
+def parse_pnpm_lock(text: str, path: str) -> list[DependencyName]:
+    names: list[DependencyName] = []
+    if yaml is None:
+        return names
+    try:
+        data = yaml.safe_load(text) or {}
+    except yaml.YAMLError:
+        return names
+    ref = SourceRef(path, 1, SourceType.PNPM_LOCK)
+
+    for key in (data.get("packages") or {}):
+        nm = _pnpm_name_from_key(str(key))
+        if nm:
+            dn = make_name(nm, Ecosystem.NPM, ref)
+            if dn:
+                names.append(dn)
+    # importers.<dir>.{dependencies,devDependencies}
+    for imp in (data.get("importers") or {}).values():
+        if not isinstance(imp, dict):
+            continue
+        for section in ("dependencies", "devDependencies", "optionalDependencies"):
+            for nm in (imp.get(section) or {}):
+                dn = make_name(nm, Ecosystem.NPM, ref)
+                if dn:
+                    names.append(dn)
+    return names
+
+
+def parse_environment_yml(text: str, path: str) -> list[DependencyName]:
+    """Conda environment file: extract the ``pip:`` sub-section as PyPI names.
+
+    Only the pip block is taken — conda packages resolve against a different
+    registry, so treating them as PyPI names would misattribute the ecosystem.
+    """
+    names: list[DependencyName] = []
+    if yaml is None:
+        return names
+    try:
+        data = yaml.safe_load(text) or {}
+    except yaml.YAMLError:
+        return names
+    ref = SourceRef(path, 1, SourceType.ENVIRONMENT_YML)
+    for entry in (data.get("dependencies") or []):
+        if isinstance(entry, dict) and "pip" in entry:
+            for spec in (entry.get("pip") or []):
+                m = _REQ_NAME.match(str(spec))
+                if m:
+                    dn = make_name(m.group(1), Ecosystem.PYPI, ref)
+                    if dn:
+                        names.append(dn)
+    return names
+
+
 # --------------------------------------------------------------------------- #
-# Registry config collectors (.npmrc / pip.conf)
+# Registry config collectors (.npmrc / .yarnrc.yml / pip.conf)
 # --------------------------------------------------------------------------- #
 def parse_npmrc(text: str, config: RegistryConfig, path: str) -> None:
     for i, raw in enumerate(text.splitlines(), start=1):
@@ -329,6 +415,30 @@ def parse_npmrc(text: str, config: RegistryConfig, path: str) -> None:
         if m:
             config.npm_default_registry = m.group(1)
             config.evidence.append(f"{path}:{i} default registry -> {m.group(1)}")
+
+
+def parse_yarnrc_yml(text: str, config: RegistryConfig, path: str) -> None:
+    """Yarn Berry config: npmScopes map scope -> registry (scope keys lack '@')."""
+    if yaml is None:
+        return
+    try:
+        data = yaml.safe_load(text) or {}
+    except yaml.YAMLError:
+        return
+    scopes = data.get("npmScopes") or {}
+    if isinstance(scopes, dict):
+        for scope, cfg in scopes.items():
+            reg = None
+            if isinstance(cfg, dict):
+                reg = cfg.get("npmRegistryServer") or cfg.get("npmPublishRegistry")
+            if reg:
+                key = f"@{scope.lstrip('@')}".lower()
+                config.npm_scope_registries[key] = reg
+                config.evidence.append(f"{path} scope {key} -> {reg}")
+    default = data.get("npmRegistryServer")
+    if default:
+        config.npm_default_registry = default
+        config.evidence.append(f"{path} default registry -> {default}")
 
 
 def parse_pip_conf(text: str, config: RegistryConfig, path: str) -> None:
@@ -411,6 +521,8 @@ _PY_NAME_PARSERS = {
     SourceType.PACKAGE_JSON: parse_package_json,
     SourceType.PACKAGE_LOCK_JSON: parse_package_lock,
     SourceType.YARN_LOCK: parse_yarn_lock,
+    SourceType.PNPM_LOCK: parse_pnpm_lock,
+    SourceType.ENVIRONMENT_YML: parse_environment_yml,
 }
 
 
@@ -435,6 +547,9 @@ def collect_from_file(path: Path, config: RegistryConfig) -> list[DependencyName
 
     if name == ".npmrc":
         parse_npmrc(text, config, rel)
+        return []
+    if name == ".yarnrc.yml":
+        parse_yarnrc_yml(text, config, rel)
         return []
     if name == "pip.conf" or name == "pip.ini":
         parse_pip_conf(text, config, rel)

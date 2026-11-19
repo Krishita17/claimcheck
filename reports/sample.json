@@ -885,10 +885,43 @@
       ]
     }
   ],
+  "typosquats": [
+    {
+      "internal_name": "acmecorp-config-loader",
+      "ecosystem": "npm",
+      "variant": "acmecorp-config_loader",
+      "kind": "separator-swap",
+      "distance": 1,
+      "registry": {
+        "exists": true,
+        "owner": "mallory",
+        "first_published": "2026-10-28",
+        "recently_published": true,
+        "source": "mock"
+      },
+      "priority": 1
+    },
+    {
+      "internal_name": "acme-internal-billing",
+      "ecosystem": "pypi",
+      "variant": "acme-internal-biling",
+      "kind": "char-deletion",
+      "distance": 1,
+      "registry": {
+        "exists": true,
+        "owner": "mallory",
+        "first_published": "2024-05-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "priority": 2
+    }
+  ],
   "summary": {
     "SAFE": 9,
     "CLAIMABLE": 6,
     "TAKEN-NOT-YOURS": 4,
-    "PROTECTED": 2
+    "PROTECTED": 2,
+    "typosquats": 2
   }
 }

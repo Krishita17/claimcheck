@@ -24,6 +24,7 @@ from .fallback.analyzer import FallbackAnalyzer
 from .registry.oracle import RegistryOracle, MockRegistryOracle
 from .score.scorer import Scorer
 from .schema import ScanResult
+from .typosquat import TyposquatDetector
 
 
 def run_scan(
@@ -31,6 +32,7 @@ def run_scan(
     oracle: Optional[RegistryOracle] = None,
     classifier_config: Optional[ClassifierConfig] = None,
     collection: Optional[CollectionResult] = None,
+    detect_typosquats: bool = False,
 ) -> ScanResult:
     """Run the full ClaimCheck pipeline against ``target``.
 
@@ -68,4 +70,10 @@ def run_scan(
         fb = fallback.analyze(name)
         finding = scorer.score(name, status, fb)
         result.findings.append(finding)
+
+    if detect_typosquats:
+        detector = TyposquatDetector(
+            oracle, owned_public_names=classifier_config.owned_public_names)
+        result.typosquats = detector.detect(result.findings)
+
     return result

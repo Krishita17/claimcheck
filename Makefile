@@ -57,13 +57,15 @@ figures:
 report:
 	@mkdir -p reports
 	$(BIN)/claimcheck scan $(SAMPLES)/acme --oracle $(SAMPLES)/acme.oracle.json \
-		--config $(SAMPLES)/acme.config.json --format markdown -o reports/sample_exposure_report.md
+		--config $(SAMPLES)/acme.config.json --typosquat --format markdown -o reports/sample_exposure_report.md
 	$(BIN)/claimcheck scan $(SAMPLES)/acme --oracle $(SAMPLES)/acme.oracle.json \
-		--config $(SAMPLES)/acme.config.json --format table -o reports/sample_report.txt
+		--config $(SAMPLES)/acme.config.json --typosquat --format table -o reports/sample_report.txt
 	$(BIN)/claimcheck scan $(SAMPLES)/acme --oracle $(SAMPLES)/acme.oracle.json \
-		--config $(SAMPLES)/acme.config.json --format sarif -o reports/sample.sarif
+		--config $(SAMPLES)/acme.config.json --typosquat --format sarif -o reports/sample.sarif
 	$(BIN)/claimcheck scan $(SAMPLES)/acme --oracle $(SAMPLES)/acme.oracle.json \
-		--config $(SAMPLES)/acme.config.json --format json -o reports/sample.json
+		--config $(SAMPLES)/acme.config.json --typosquat --format json -o reports/sample.json
+	$(BIN)/claimcheck scan $(SAMPLES)/acme --oracle $(SAMPLES)/acme.oracle.json \
+		--config $(SAMPLES)/acme.config.json --typosquat --format html -o reports/sample_report.html
 
 test:
 	$(BIN)/python -m pytest -q

@@ -113,3 +113,8 @@ Recommended actions (most urgent first):
       - public registry: NOT FOUND (src=mock)
       - fallback: scope @acme pinned to private registry https://npm.acme.internal/ (.npmrc)
 
+
+Potential typosquats (public near-misses of your internal names):
+------------------------------------------------------------------------------
+  npm   acmecorp-config_loader  ~  acmecorp-config-loader  (distance 1, separator-swap, owner=mallory) [recent]
+  pypi  acme-internal-biling  ~  acme-internal-billing  (distance 1, char-deletion, owner=mallory)

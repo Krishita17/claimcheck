@@ -52,9 +52,11 @@ def run_org(samples: Path, slug: str):
     oracle = MockRegistryOracle.from_file(samples / f"{slug}.oracle.json")
     config = ClassifierConfig.from_dict(
         json.loads((samples / f"{slug}.config.json").read_text()))
-    result = run_scan(samples / slug, oracle=oracle, classifier_config=config)
+    result = run_scan(samples / slug, oracle=oracle, classifier_config=config,
+                      detect_typosquats=True)
 
     label_by_key = {_label_key(l): l for l in labels}
+    typosquats = len(result.typosquats)
     rows = []
     for f in result.findings:
         key = f.name.key()
@@ -77,7 +79,7 @@ def run_org(samples: Path, slug: str):
                 f.classification.value == label["true_classification"]),
             "exploitable": bool(f.fallback and f.fallback.exploitable),
         })
-    return rows
+    return rows, typosquats
 
 
 def prf(rows, field_pred, field_true, positive):
@@ -181,11 +183,15 @@ def main(argv=None) -> int:
         return 1
 
     all_rows = []
+    total_typosquats = 0
     for slug in orgs:
-        all_rows.extend(run_org(samples, slug))
+        rows, typosquats = run_org(samples, slug)
+        all_rows.extend(rows)
+        total_typosquats += typosquats
 
     metrics = compute_metrics(all_rows)
     metrics["orgs"] = orgs
+    metrics["typosquats_detected"] = total_typosquats
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     (out / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
@@ -196,6 +202,7 @@ def main(argv=None) -> int:
     print(f"classification acc. : {metrics['classification_accuracy']:.1%}")
     print(f"verdict accuracy    : {metrics['verdict_accuracy']:.1%}")
     print(f"public FP rate      : {metrics['public_false_positive_rate']:.1%}")
+    print(f"typosquats detected : {metrics['typosquats_detected']}")
     print(f"verdict distribution: {metrics['verdict_distribution']}")
     print(f"metrics + CSVs      -> {out}/")
     return 0

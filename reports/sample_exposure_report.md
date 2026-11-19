@@ -39,3 +39,12 @@
 | INFO | pypi | `pydantic` | requirements.txt | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
 | INFO | pypi | `requests` | requirements.txt | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
 
+## Potential typosquats
+
+Public packages that are confusable near-misses of your internal names.
+
+| Ecosystem | Public variant | Confusable with | Distance | Kind | Owner |
+|---|---|---|---|---|---|
+| npm | `acmecorp-config_loader` | `acmecorp-config-loader` | 1 | separator-swap | mallory |
+| pypi | `acme-internal-biling` | `acme-internal-billing` | 1 | char-deletion | mallory |
+

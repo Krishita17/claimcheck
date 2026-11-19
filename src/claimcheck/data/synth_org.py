@@ -89,6 +89,9 @@ class SyntheticOrg:
     private_pip_index: str
     public_fallback: bool = True              # does this org's config allow fallback?
     owned_public_names: list[str] = field(default_factory=list)
+    # Public near-miss variants planted in the registry only (not in any
+    # manifest) to exercise typosquat-adjacency detection.
+    typosquats: list[dict] = field(default_factory=list)
 
     def classifier_config_dict(self) -> dict:
         return {
@@ -100,16 +103,25 @@ class SyntheticOrg:
 
     def registry_fixture(self) -> dict:
         """Build the mock-oracle fixture (which names 'exist' publicly)."""
+        from ..extract import canonicalize_pypi, canonicalize_npm
         fixture = {"pypi": {}, "npm": {}}
         for n in self.names:
             if not n.exists_public:
                 continue
-            from ..extract import canonicalize_pypi, canonicalize_npm
             key = canonicalize_pypi(n.raw) if n.ecosystem == "pypi" else canonicalize_npm(n.raw)
             fixture[n.ecosystem][key] = {
                 "owner": n.owner,
                 "first_published": n.first_published,
                 "recently_published": n.recently_published,
+            }
+        # Planted typosquats exist in the registry but in no manifest.
+        for t in self.typosquats:
+            eco = t["ecosystem"]
+            key = canonicalize_pypi(t["name"]) if eco == "pypi" else canonicalize_npm(t["name"])
+            fixture[eco][key] = {
+                "owner": t.get("owner"),
+                "first_published": t.get("first_published"),
+                "recently_published": t.get("recently_published", False),
             }
         return fixture
 
@@ -212,5 +224,15 @@ def generate_org(seed: int = 0, slug: str = "acme") -> SyntheticOrg:
         private_pip_index=priv_pip,
         public_fallback=True,
         owned_public_names=[owned_pypi.lower(), owned_npm.lower()],
+        typosquats=[
+            # npm separator-swap of an internal name, freshly squatted.
+            {"ecosystem": "npm", "name": f"{npm_prefix}config_loader",
+             "owner": "mallory", "first_published": "2026-10-28",
+             "recently_published": True},
+            # pypi dropped-letter variant of an internal name.
+            {"ecosystem": "pypi", "name": f"{pip_prefix}internal-biling",
+             "owner": "mallory", "first_published": "2024-05-01",
+             "recently_published": False},
+        ],
     )
     return org

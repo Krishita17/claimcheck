@@ -7,11 +7,13 @@ from .report import (
     verdict_counts,
 )
 from .sarif import render_sarif
+from .html import render_html
 
 __all__ = [
     "render_text",
     "render_markdown",
     "render_json",
     "render_sarif",
+    "render_html",
     "verdict_counts",
 ]

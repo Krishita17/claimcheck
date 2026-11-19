@@ -87,6 +87,18 @@ def render_text(result: ScanResult) -> str:
             lines.append("")
     else:
         lines.append("No actionable exposures found. All names are SAFE.")
+
+    if result.typosquats:
+        lines.append("")
+        lines.append("Potential typosquats (public near-misses of your internal names):")
+        lines.append("-" * 78)
+        for t in result.typosquats:
+            owner = t.registry.owner if t.registry else "unknown"
+            recent = " [recent]" if (t.registry and t.registry.recently_published) else ""
+            lines.append(
+                f"  {t.ecosystem:<5} {t.variant}  ~  {t.internal_name}  "
+                f"(distance {t.distance}, {t.kind}, owner={owner}){recent}"
+            )
     return "\n".join(lines)
 
 
@@ -125,6 +137,21 @@ def render_markdown(result: ScanResult) -> str:
             f"| {f.action} |"
         )
     out.append("")
+
+    if result.typosquats:
+        out.append("## Potential typosquats")
+        out.append("")
+        out.append("Public packages that are confusable near-misses of your internal names.")
+        out.append("")
+        out.append("| Ecosystem | Public variant | Confusable with | Distance | Kind | Owner |")
+        out.append("|---|---|---|---|---|---|")
+        for t in result.typosquats:
+            owner = t.registry.owner if t.registry else "unknown"
+            out.append(
+                f"| {t.ecosystem} | `{t.variant}` | `{t.internal_name}` "
+                f"| {t.distance} | {t.kind} | {owner} |"
+            )
+        out.append("")
     return "\n".join(out)
 
 
@@ -133,5 +160,7 @@ def render_markdown(result: ScanResult) -> str:
 # --------------------------------------------------------------------------- #
 def render_json(result: ScanResult, indent: int = 2) -> str:
     payload = result.to_dict()
-    payload["summary"] = verdict_counts(result)
+    summary = verdict_counts(result)
+    summary["typosquats"] = len(result.typosquats)
+    payload["summary"] = summary
     return json.dumps(payload, indent=indent)

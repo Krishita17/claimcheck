@@ -30,7 +30,7 @@ from . import __version__
 from .classify.classifier import ClassifierConfig
 from .pipeline import run_scan
 from .registry.oracle import load_oracle
-from .report import render_text, render_markdown, render_json, render_sarif
+from .report import render_text, render_markdown, render_json, render_sarif, render_html
 from .schema import Verdict
 
 
@@ -62,6 +62,7 @@ _RENDERERS = {
     "md": render_markdown,
     "json": render_json,
     "sarif": render_sarif,
+    "html": render_html,
 }
 
 _FAIL_LEVELS = {
@@ -77,7 +78,8 @@ def _cmd_scan(args: argparse.Namespace) -> int:
     oracle = load_oracle(mode, oracle_file=args.oracle, cache_dir=args.cache_dir)
     config = _load_config(args.config)
 
-    result = run_scan(args.target, oracle=oracle, classifier_config=config)
+    result = run_scan(args.target, oracle=oracle, classifier_config=config,
+                      detect_typosquats=args.typosquat)
 
     renderer = _RENDERERS.get(args.format)
     if renderer is None:
@@ -110,6 +112,52 @@ def _cmd_generate(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_init_config(args: argparse.Namespace) -> int:
+    """Scaffold a starter classifier config from what a scan discovers."""
+    from collections import Counter
+    from .collect.collectors import collect_from_path
+    from .data.wellknown import is_wellknown
+    from .extract import merge_names
+
+    collection = collect_from_path(args.target)
+    names = merge_names(collection.names)
+    scopes = sorted(collection.config.private_npm_scopes())
+
+    # Suggest internal prefixes: the most common leading token (before the first
+    # '-') among non-well-known, non-scoped names.
+    prefix_counts: Counter[str] = Counter()
+    for n in names:
+        if n.scope or is_wellknown(n.normalized, n.ecosystem.value):
+            continue
+        head = n.normalized.split("/", 1)[-1].split("-", 1)[0]
+        if len(head) >= 3:
+            prefix_counts[f"{head}-"] += 1
+    suggested = [p for p, c in prefix_counts.most_common(5) if c >= 2]
+
+    def _yaml_list(items):
+        return "\n".join(f'    - "{i}"' for i in items) if items else "    []"
+
+    config_yaml = (
+        "# ClaimCheck config scaffolded from a scan. REVIEW before use:\n"
+        "# confirm these prefixes/scopes are really yours, and add owned public names.\n"
+        "classifier:\n"
+        "  internal_names: []\n"
+        "  internal_prefixes:\n"
+        f"{_yaml_list(suggested)}\n"
+        "  private_scopes:\n"
+        f"{_yaml_list(scopes)}\n"
+        "  owned_public_names: []\n"
+    )
+    if args.output:
+        Path(args.output).write_text(config_yaml, encoding="utf-8")
+        print(f"wrote scaffolded config to {args.output}", file=sys.stderr)
+        print(f"  discovered private scopes : {scopes or 'none'}", file=sys.stderr)
+        print(f"  suggested prefixes        : {suggested or 'none'}", file=sys.stderr)
+    else:
+        print(config_yaml)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(
         prog="claimcheck",
@@ -133,12 +181,20 @@ def build_parser() -> argparse.ArgumentParser:
                       help="CI guard: exit 2 if findings at/above this level exist")
     scan.add_argument("--cache-dir", default=".claimcheck_cache",
                       help="cache directory for live lookups")
+    scan.add_argument("--typosquat", action="store_true",
+                      help="also probe confusable near-miss variants of internal names")
     scan.set_defaults(func=_cmd_scan)
 
     gen = sub.add_parser("generate-data", help="(re)generate synthetic samples")
     gen.add_argument("--out", default="samples")
     gen.add_argument("--seeds", nargs="*", type=int, default=[0, 1, 2])
     gen.set_defaults(func=_cmd_generate)
+
+    init = sub.add_parser("init-config",
+                          help="scaffold a classifier config from a repo scan")
+    init.add_argument("target", help="repository directory or manifest/config file")
+    init.add_argument("-o", "--output", help="write YAML config to a file")
+    init.set_defaults(func=_cmd_init_config)
 
     return ap
 

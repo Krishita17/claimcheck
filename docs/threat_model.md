@@ -36,6 +36,10 @@ that.
 - The repository **ships no publishing capability**. This invariant is enforced
   by an automated test (`tests/test_readonly.py`) that fails the build if any
   mutating HTTP verb or publishing tool appears in the source.
+- **Typosquat-adjacency detection** (`--typosquat`) only *reads*: it generates
+  confusable name variants locally and performs read-only existence lookups for
+  them. It never registers a variant, and the generated variants are used solely
+  to check what an attacker may already have published against your names.
 
 ## 4. Assess your own names only
 

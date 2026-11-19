@@ -34,7 +34,10 @@ class SourceType(str, enum.Enum):
     PACKAGE_JSON = "package.json"
     PACKAGE_LOCK_JSON = "package-lock.json"
     YARN_LOCK = "yarn.lock"
+    PNPM_LOCK = "pnpm-lock.yaml"
+    ENVIRONMENT_YML = "environment.yml"
     NPMRC = ".npmrc"
+    YARNRC_YML = ".yarnrc.yml"
     PIP_CONF = "pip.conf"
     DOCKERFILE = "Dockerfile"
     CI_FILE = "ci"
@@ -175,18 +178,49 @@ class NameFinding:
 
 
 @dataclass
+class TyposquatFinding:
+    """A public package that is a confusable variant of an internal name.
+
+    This is a *related* attack to dependency confusion: instead of claiming your
+    exact internal name, an attacker registers a near-miss (separator swap, a
+    dropped letter, a transposition) hoping a typo or a copy-paste pulls it in.
+    """
+
+    internal_name: str          # the normalized internal name at risk
+    ecosystem: str              # "pypi" | "npm"
+    variant: str                # the confusable public name that exists
+    kind: str                   # how the variant differs (e.g. "separator-swap")
+    distance: int               # edit distance between name and variant
+    registry: Optional[RegistryStatus] = None
+    priority: int = PRIORITY_HIGH
+
+    def to_dict(self) -> dict:
+        return {
+            "internal_name": self.internal_name,
+            "ecosystem": self.ecosystem,
+            "variant": self.variant,
+            "kind": self.kind,
+            "distance": self.distance,
+            "registry": self.registry.to_dict() if self.registry else None,
+            "priority": self.priority,
+        }
+
+
+@dataclass
 class ScanResult:
     """The full output of a scan: all findings plus the target that was scanned."""
 
     target: str
     findings: list[NameFinding] = field(default_factory=list)
     mode: str = "mock"                      # "mock" | "live"
+    typosquats: list[TyposquatFinding] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return {
             "target": self.target,
             "mode": self.mode,
             "findings": [f.to_dict() for f in self.findings],
+            "typosquats": [t.to_dict() for t in self.typosquats],
         }
 
     def by_verdict(self, verdict: Verdict) -> list[NameFinding]:
