@@ -1,0 +1,36 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "components": [
+    {
+      "type": "library",
+      "name": "requests",
+      "purl": "pkg:pypi/requests@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "pyyaml",
+      "purl": "pkg:pypi/pyyaml@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "flask",
+      "purl": "pkg:pypi/flask@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "express",
+      "purl": "pkg:npm/express@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "react",
+      "purl": "pkg:npm/react@1.0.0"
+    },
+    {
+      "type": "library",
+      "name": "axios",
+      "purl": "pkg:npm/axios@1.0.0"
+    }
+  ]
+}

@@ -30,14 +30,14 @@
 | MEDIUM | npm | `@acme/payments` | package.json | unclaimed | **PROTECTED** | Exposure is mitigated by configuration (scope reserved / index pinned). Keep the config under review and re-scan in CI — a config change re-opens the exposure. |
 | MEDIUM | npm | `@acme/secrets` | package.json | unclaimed | **PROTECTED** | Exposure is mitigated by configuration (scope reserved / index pinned). Keep the config under review and re-scan in CI — a config change re-opens the exposure. |
 | INFO | npm | `acmecorp-widgets` | package.json | taken (acme) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
-| INFO | npm | `axios` | package.json | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
-| INFO | npm | `chalk` | package.json | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
+| INFO | npm | `axios` | sbom | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
+| INFO | npm | `chalk` | sbom | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
 | INFO | npm | `datastore-sync-layer` | package.json | taken (mallory) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
-| INFO | npm | `express` | package.json | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
+| INFO | npm | `express` | sbom | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
 | INFO | pypi | `acme-sdk` | pyproject.toml | taken (acme) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
-| INFO | pypi | `flask` | requirements.txt | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
-| INFO | pypi | `pydantic` | requirements.txt | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
-| INFO | pypi | `requests` | requirements.txt | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
+| INFO | pypi | `flask` | sbom | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
+| INFO | pypi | `pydantic` | sbom | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
+| INFO | pypi | `requests` | sbom | taken (community) | **SAFE** | No action needed: the name is legitimately public (well-known or org-owned). |
 
 ## Potential typosquats
 

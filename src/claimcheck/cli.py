@@ -81,6 +81,14 @@ def _cmd_scan(args: argparse.Namespace) -> int:
     result = run_scan(args.target, oracle=oracle, classifier_config=config,
                       detect_typosquats=args.typosquat)
 
+    # Write a baseline of the current findings and exit (no gate).
+    if args.write_baseline:
+        from .baseline import write_baseline
+        n = write_baseline(result, args.write_baseline)
+        print(f"wrote baseline with {n} accepted finding(s) to {args.write_baseline}",
+              file=sys.stderr)
+        return 0
+
     renderer = _RENDERERS.get(args.format)
     if renderer is None:
         print(f"error: unknown format '{args.format}'", file=sys.stderr)
@@ -93,16 +101,36 @@ def _cmd_scan(args: argparse.Namespace) -> int:
     else:
         print(rendered)
 
-    # CI guard.
+    # CI guard — optionally suppressing findings accepted in a baseline.
     fail_on = _FAIL_LEVELS.get(args.fail_on, set())
     if fail_on:
-        hits = [f for f in result.findings if f.verdict in fail_on]
+        gated = result.findings
+        if args.baseline:
+            from .baseline import load_baseline, apply_baseline
+            gated = apply_baseline(result, load_baseline(args.baseline))
+        hits = [f for f in gated if f.verdict in fail_on]
         if hits:
+            suffix = " (new, not in baseline)" if args.baseline else ""
             print(
-                f"\nCI GUARD: {len(hits)} finding(s) at or above '{args.fail_on}' "
-                f"-> failing (exit 2).", file=sys.stderr,
+                f"\nCI GUARD: {len(hits)} finding(s){suffix} at or above "
+                f"'{args.fail_on}' -> failing (exit 2).", file=sys.stderr,
             )
             return 2
+    return 0
+
+
+def _cmd_diff(args: argparse.Namespace) -> int:
+    from .report.diff import diff_scan_files, render_diff_text
+    import json as _json
+    d = diff_scan_files(args.old, args.new)
+    if args.format == "json":
+        print(_json.dumps(d, indent=2))
+    else:
+        print(render_diff_text(d))
+    if d["is_regression"] and not args.no_fail:
+        print("\nCI GUARD: new exposure introduced -> failing (exit 2).",
+              file=sys.stderr)
+        return 2
     return 0
 
 
@@ -183,7 +211,19 @@ def build_parser() -> argparse.ArgumentParser:
                       help="cache directory for live lookups")
     scan.add_argument("--typosquat", action="store_true",
                       help="also probe confusable near-miss variants of internal names")
+    scan.add_argument("--baseline",
+                      help="suppress findings listed in this baseline file from the CI gate")
+    scan.add_argument("--write-baseline",
+                      help="write current non-SAFE findings as a baseline and exit")
     scan.set_defaults(func=_cmd_scan)
+
+    diff = sub.add_parser("diff", help="compare two scan JSON reports (regression gate)")
+    diff.add_argument("old", help="baseline scan JSON (e.g. from the base branch)")
+    diff.add_argument("new", help="current scan JSON (e.g. from the PR)")
+    diff.add_argument("--format", default="text", choices=["text", "json"])
+    diff.add_argument("--no-fail", action="store_true",
+                      help="report differences but always exit 0")
+    diff.set_defaults(func=_cmd_diff)
 
     gen = sub.add_parser("generate-data", help="(re)generate synthetic samples")
     gen.add_argument("--out", default="samples")

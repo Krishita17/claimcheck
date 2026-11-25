@@ -64,6 +64,14 @@ def run_scan(
 
     names = merge_names(collection.names)
 
+    # In live mode, warm the cache for every name concurrently so the sequential
+    # scoring loop below reads from cache instead of blocking on each GET.
+    if hasattr(oracle, "prefetch"):
+        try:
+            oracle.prefetch([(n.normalized, n.ecosystem) for n in names])
+        except Exception:
+            pass  # prefetch is an optimization; fall back to lazy lookups
+
     result = ScanResult(target=str(target), mode=oracle.source_label)
     for name in names:
         status = oracle.lookup(name.normalized, name.ecosystem)

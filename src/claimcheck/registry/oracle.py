@@ -123,7 +123,8 @@ class LiveRegistryOracle(RegistryOracle):
     NPM_URL = "https://registry.npmjs.org/{name}"
 
     def __init__(self, cache_dir: str | Path = ".claimcheck_cache",
-                 min_interval: float = 0.1, timeout: float = 10.0):
+                 min_interval: float = 0.1, timeout: float = 10.0,
+                 max_workers: int = 8):
         try:
             import requests  # noqa: F401  (imported lazily; live mode only)
         except ImportError as exc:  # pragma: no cover - env dependent
@@ -136,7 +137,10 @@ class LiveRegistryOracle(RegistryOracle):
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         self.min_interval = min_interval
         self.timeout = timeout
+        self.max_workers = max(1, max_workers)
         self._last_call = 0.0
+        import threading
+        self._throttle_lock = threading.Lock()
 
     # -- caching ---------------------------------------------------------- #
     def _cache_path(self, ecosystem: Ecosystem, name: str) -> Path:
@@ -144,10 +148,13 @@ class LiveRegistryOracle(RegistryOracle):
         return self.cache_dir / f"{ecosystem.value}__{safe}.json"
 
     def _throttle(self) -> None:
-        delta = time.monotonic() - self._last_call
-        if delta < self.min_interval:
-            time.sleep(self.min_interval - delta)
-        self._last_call = time.monotonic()
+        # Thread-safe spacing between outbound GETs so concurrent prefetch stays
+        # polite to the registries.
+        with self._throttle_lock:
+            delta = time.monotonic() - self._last_call
+            if delta < self.min_interval:
+                time.sleep(self.min_interval - delta)
+            self._last_call = time.monotonic()
 
     def _get(self, url: str) -> tuple[int, Optional[dict]]:
         self._throttle()
@@ -182,6 +189,25 @@ class LiveRegistryOracle(RegistryOracle):
 
         cache_path.write_text(json.dumps(status.to_dict()), encoding="utf-8")
         return status
+
+    def prefetch(self, names: list[tuple[str, Ecosystem]]) -> None:
+        """Warm the cache for many names concurrently (read-only GETs).
+
+        Each subsequent :meth:`lookup` then returns instantly from the cache.
+        Concurrency is bounded by ``max_workers`` and spaced by ``_throttle``.
+        """
+        from concurrent.futures import ThreadPoolExecutor
+
+        pending = [
+            (nm, eco) for nm, eco in names
+            if not self._cache_path(eco, nm).exists()
+        ]
+        if not pending:
+            return
+        with ThreadPoolExecutor(max_workers=self.max_workers) as pool:
+            # lookup() is self-caching and thread-safe (per-name cache files +
+            # a locked throttle), so mapping it over the pool warms the cache.
+            list(pool.map(lambda args: self.lookup(args[0], args[1]), pending))
 
     def _lookup_pypi(self, name: str) -> RegistryStatus:
         code, data = self._get(self.PYPI_URL.format(name=name))

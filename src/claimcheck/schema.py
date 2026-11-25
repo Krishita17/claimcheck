@@ -41,6 +41,7 @@ class SourceType(str, enum.Enum):
     PIP_CONF = "pip.conf"
     DOCKERFILE = "Dockerfile"
     CI_FILE = "ci"
+    SBOM = "sbom"
 
 
 class Classification(str, enum.Enum):

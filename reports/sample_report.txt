@@ -18,14 +18,14 @@ HIGH     pypi  acme-tools                        requirements.txt  taken (thirdp
 MEDIUM   npm   @acme/payments                    package.json      unclaimed             PROTECTED
 MEDIUM   npm   @acme/secrets                     package.json      unclaimed             PROTECTED
 INFO     npm   acmecorp-widgets                  package.json      taken (acme)          SAFE
-INFO     npm   axios                             package.json      taken (community)     SAFE
-INFO     npm   chalk                             package.json      taken (community)     SAFE
+INFO     npm   axios                             sbom              taken (community)     SAFE
+INFO     npm   chalk                             sbom              taken (community)     SAFE
 INFO     npm   datastore-sync-layer              package.json      taken (mallory)       SAFE
-INFO     npm   express                           package.json      taken (community)     SAFE
+INFO     npm   express                           sbom              taken (community)     SAFE
 INFO     pypi  acme-sdk                          pyproject.toml    taken (acme)          SAFE
-INFO     pypi  flask                             requirements.txt  taken (community)     SAFE
-INFO     pypi  pydantic                          requirements.txt  taken (community)     SAFE
-INFO     pypi  requests                          requirements.txt  taken (community)     SAFE
+INFO     pypi  flask                             sbom              taken (community)     SAFE
+INFO     pypi  pydantic                          sbom              taken (community)     SAFE
+INFO     pypi  requests                          sbom              taken (community)     SAFE
 
 Recommended actions (most urgent first):
 ------------------------------------------------------------------------------

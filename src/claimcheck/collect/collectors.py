@@ -372,6 +372,79 @@ def parse_pnpm_lock(text: str, path: str) -> list[DependencyName]:
     return names
 
 
+def parse_purl(purl: str) -> Optional[tuple[Ecosystem, str]]:
+    """Parse a package URL (purl) into (ecosystem, name) for pypi/npm.
+
+    Examples:
+        pkg:pypi/requests@2.31.0            -> (PYPI, "requests")
+        pkg:npm/lodash@4.17.21              -> (NPM, "lodash")
+        pkg:npm/%40acme/billing@1.0.0       -> (NPM, "@acme/billing")
+    """
+    from urllib.parse import unquote
+    if not purl or not purl.startswith("pkg:"):
+        return None
+    body = purl[len("pkg:"):]
+    body = body.split("?", 1)[0].split("#", 1)[0]  # drop qualifiers/subpath
+    if "/" not in body:
+        return None
+    ptype, rest = body.split("/", 1)
+    ptype = ptype.lower()
+    name_version = rest.rsplit("@", 1)[0] if "@" in rest.split("/")[-1] else rest
+    name = unquote(name_version)
+    if ptype == "pypi":
+        return Ecosystem.PYPI, name
+    if ptype == "npm":
+        # npm namespace (scope) is the part before the last '/'
+        return Ecosystem.NPM, name
+    return None
+
+
+def parse_sbom(text: str, path: str) -> list[DependencyName]:
+    """Parse a CycloneDX or SPDX SBOM (JSON), preferring package-URLs.
+
+    purls make the ecosystem unambiguous; components/packages without a
+    pypi/npm purl are skipped rather than guessed.
+    """
+    names: list[DependencyName] = []
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError:
+        return names
+    ref = SourceRef(path, 1, SourceType.SBOM)
+
+    def add_purl(purl: str):
+        parsed = parse_purl(purl)
+        if parsed:
+            eco, nm = parsed
+            dn = make_name(nm, eco, ref)
+            if dn:
+                names.append(dn)
+
+    # CycloneDX: {"bomFormat":"CycloneDX","components":[{"purl":...}]}
+    if data.get("bomFormat") == "CycloneDX" or "components" in data:
+        for comp in (data.get("components") or []):
+            if isinstance(comp, dict) and comp.get("purl"):
+                add_purl(comp["purl"])
+    # SPDX: {"spdxVersion":...,"packages":[{"externalRefs":[{"referenceType":"purl",...}]}]}
+    if str(data.get("spdxVersion", "")).startswith("SPDX") or "packages" in data:
+        for pkg in (data.get("packages") or []):
+            if not isinstance(pkg, dict):
+                continue
+            for xref in (pkg.get("externalRefs") or []):
+                if isinstance(xref, dict) and "purl" in str(xref.get("referenceType", "")).lower():
+                    add_purl(xref.get("referenceLocator", ""))
+    return names
+
+
+def _looks_like_sbom(path: Path) -> bool:
+    name = path.name.lower()
+    if not name.endswith(".json"):
+        return False
+    if any(tok in name for tok in ("sbom", "bom", "cdx", "spdx")):
+        return True
+    return False
+
+
 def parse_environment_yml(text: str, path: str) -> list[DependencyName]:
     """Conda environment file: extract the ``pip:`` sub-section as PyPI names.
 
@@ -560,6 +633,8 @@ def collect_from_file(path: Path, config: RegistryConfig) -> list[DependencyName
         return _PY_NAME_PARSERS[source_type](text, rel)
     if name == "Dockerfile" or name.startswith("Dockerfile"):
         return parse_dockerfile(text, rel)
+    if _looks_like_sbom(path):
+        return parse_sbom(text, rel)
     if _looks_like_ci(path):
         return parse_ci_file(text, rel)
     return []
@@ -588,6 +663,7 @@ def collect_from_path(root: str | Path) -> CollectionResult:
             name in DEFAULT_FILENAMES
             or name in ("pip.ini",)
             or name.startswith("Dockerfile")
+            or _looks_like_sbom(p)
             or _looks_like_ci(p)
         )
         if not is_known:

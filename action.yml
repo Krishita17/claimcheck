@@ -1,0 +1,59 @@
+name: "ClaimCheck"
+description: "Defensive dependency-confusion exposure checker for internal PyPI/npm packages (read-only)."
+author: "Krishita Sanjay Choksi"
+branding:
+  icon: "shield"
+  color: "red"
+
+inputs:
+  target:
+    description: "Repository path or manifest to scan."
+    required: false
+    default: "."
+  config:
+    description: "Path to a ClaimCheck classifier config (YAML/JSON)."
+    required: false
+    default: ""
+  fail-on:
+    description: "Fail the build at/above this level: claimable | taken | any | none."
+    required: false
+    default: "claimable"
+  typosquat:
+    description: "Also probe confusable near-miss variants ('true'/'false')."
+    required: false
+    default: "false"
+  live:
+    description: "Probe live public registries ('true'/'false'). Read-only."
+    required: false
+    default: "true"
+  sarif-file:
+    description: "Path to write a SARIF report to (empty to skip)."
+    required: false
+    default: "claimcheck.sarif"
+  ref:
+    description: "Git ref of ClaimCheck to install."
+    required: false
+    default: "main"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install ClaimCheck
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip >/dev/null
+        pip install "claimcheck @ git+https://github.com/Krishita17/claimcheck@${{ inputs.ref }}" >/dev/null
+        ${{ inputs.live == 'true' && 'pip install requests >/dev/null' || 'true' }}
+
+    - name: Run ClaimCheck
+      shell: bash
+      run: |
+        ARGS="scan '${{ inputs.target }}' --fail-on '${{ inputs.fail-on }}'"
+        [ "${{ inputs.live }}" = "true" ] && ARGS="$ARGS --live"
+        [ "${{ inputs.typosquat }}" = "true" ] && ARGS="$ARGS --typosquat"
+        [ -n "${{ inputs.config }}" ] && ARGS="$ARGS --config '${{ inputs.config }}'"
+        if [ -n "${{ inputs.sarif-file }}" ]; then
+          # SARIF export first (never gates), then the gating run for the exit code.
+          eval "claimcheck scan '${{ inputs.target }}' ${{ inputs.live == 'true' && '--live' || '' }} ${{ inputs.typosquat == 'true' && '--typosquat' || '' }} --format sarif -o '${{ inputs.sarif-file }}'" || true
+        fi
+        eval "claimcheck $ARGS"

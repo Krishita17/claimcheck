@@ -1,6 +1,7 @@
 source,CLAIMABLE,TAKEN-NOT-YOURS,PROTECTED,SAFE
-requirements.txt,12,9,0,9
+sbom,0,0,0,18
+requirements.txt,12,9,0,0
 Dockerfile,3,0,0,0
 pyproject.toml,0,0,0,3
-package.json,3,0,6,15
+package.json,3,0,6,6
 ci,0,3,0,0

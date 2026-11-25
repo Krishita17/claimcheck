@@ -61,15 +61,17 @@
       "TAKEN-NOT-YOURS": 9
     },
     "npm": {
-      "CLAIMABLE": 6,
       "SAFE": 15,
+      "CLAIMABLE": 6,
       "PROTECTED": 6,
       "TAKEN-NOT-YOURS": 3
     }
   },
   "by_source": {
+    "sbom": {
+      "SAFE": 18
+    },
     "requirements.txt": {
-      "SAFE": 9,
       "CLAIMABLE": 12,
       "TAKEN-NOT-YOURS": 9
     },
@@ -80,7 +82,7 @@
       "SAFE": 3
     },
     "package.json": {
-      "SAFE": 15,
+      "SAFE": 6,
       "CLAIMABLE": 3,
       "PROTECTED": 6
     },

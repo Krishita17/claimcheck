@@ -1,0 +1,22 @@
+# ClaimCheck pre-commit hook.
+#
+# Add to your .pre-commit-config.yaml:
+#
+#   repos:
+#     - repo: https://github.com/Krishita17/claimcheck
+#       rev: v0.3.0
+#       hooks:
+#         - id: claimcheck
+#           # optional: args: ["--config", "claimcheck.yml", "--fail-on", "claimable"]
+#
+# By default this runs an offline scan of the repo and fails the commit on any
+# CLAIMABLE internal name. Pass --live (and ensure `requests` is installed) to
+# probe the public registries.
+
+- id: claimcheck
+  name: ClaimCheck dependency-confusion scan
+  description: "Fail the commit if an internal package name is claimable on the public registry."
+  entry: claimcheck scan .
+  language: python
+  pass_filenames: false
+  args: ["--fail-on", "claimable"]

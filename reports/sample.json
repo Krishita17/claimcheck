@@ -10,6 +10,11 @@
         "scope": null,
         "sources": [
           {
+            "path": "samples/acme/bom.json",
+            "line": 1,
+            "source_type": "sbom"
+          },
+          {
             "path": "samples/acme/requirements.txt",
             "line": 3,
             "source_type": "requirements.txt"
@@ -39,7 +44,7 @@
       "action": "No action needed: the name is legitimately public (well-known or org-owned).",
       "evidence": [
         "classification: external (well-known public package)",
-        "found in: samples/acme/requirements.txt:3 [requirements.txt]",
+        "found in: samples/acme/bom.json:1 [sbom], samples/acme/requirements.txt:3 [requirements.txt]",
         "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
         "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
       ]
@@ -51,6 +56,11 @@
         "ecosystem": "pypi",
         "scope": null,
         "sources": [
+          {
+            "path": "samples/acme/bom.json",
+            "line": 1,
+            "source_type": "sbom"
+          },
           {
             "path": "samples/acme/requirements.txt",
             "line": 4,
@@ -81,7 +91,7 @@
       "action": "No action needed: the name is legitimately public (well-known or org-owned).",
       "evidence": [
         "classification: external (well-known public package)",
-        "found in: samples/acme/requirements.txt:4 [requirements.txt]",
+        "found in: samples/acme/bom.json:1 [sbom], samples/acme/requirements.txt:4 [requirements.txt]",
         "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
         "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
       ]
@@ -93,6 +103,11 @@
         "ecosystem": "pypi",
         "scope": null,
         "sources": [
+          {
+            "path": "samples/acme/bom.json",
+            "line": 1,
+            "source_type": "sbom"
+          },
           {
             "path": "samples/acme/requirements.txt",
             "line": 5,
@@ -123,9 +138,150 @@
       "action": "No action needed: the name is legitimately public (well-known or org-owned).",
       "evidence": [
         "classification: external (well-known public package)",
-        "found in: samples/acme/requirements.txt:5 [requirements.txt]",
+        "found in: samples/acme/bom.json:1 [sbom], samples/acme/requirements.txt:5 [requirements.txt]",
         "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
         "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
+      ]
+    },
+    {
+      "name": {
+        "raw": "axios",
+        "normalized": "axios",
+        "ecosystem": "npm",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/bom.json",
+            "line": 1,
+            "source_type": "sbom"
+          },
+          {
+            "path": "samples/acme/package.json",
+            "line": 1,
+            "source_type": "package.json"
+          }
+        ]
+      },
+      "classification": "external",
+      "registry": {
+        "exists": true,
+        "owner": "community",
+        "first_published": "2013-01-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "unscoped name resolves against the default registry (public fallback possible)"
+        ],
+        "exploitable": true
+      },
+      "verdict": "SAFE",
+      "priority": 4,
+      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
+      "evidence": [
+        "classification: external (well-known public package)",
+        "found in: samples/acme/bom.json:1 [sbom], samples/acme/package.json:1 [package.json]",
+        "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
+        "fallback: unscoped name resolves against the default registry (public fallback possible)"
+      ]
+    },
+    {
+      "name": {
+        "raw": "chalk",
+        "normalized": "chalk",
+        "ecosystem": "npm",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/bom.json",
+            "line": 1,
+            "source_type": "sbom"
+          },
+          {
+            "path": "samples/acme/package.json",
+            "line": 1,
+            "source_type": "package.json"
+          }
+        ]
+      },
+      "classification": "external",
+      "registry": {
+        "exists": true,
+        "owner": "community",
+        "first_published": "2013-01-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "unscoped name resolves against the default registry (public fallback possible)"
+        ],
+        "exploitable": true
+      },
+      "verdict": "SAFE",
+      "priority": 4,
+      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
+      "evidence": [
+        "classification: external (well-known public package)",
+        "found in: samples/acme/bom.json:1 [sbom], samples/acme/package.json:1 [package.json]",
+        "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
+        "fallback: unscoped name resolves against the default registry (public fallback possible)"
+      ]
+    },
+    {
+      "name": {
+        "raw": "express",
+        "normalized": "express",
+        "ecosystem": "npm",
+        "scope": null,
+        "sources": [
+          {
+            "path": "samples/acme/bom.json",
+            "line": 1,
+            "source_type": "sbom"
+          },
+          {
+            "path": "samples/acme/package.json",
+            "line": 1,
+            "source_type": "package.json"
+          }
+        ]
+      },
+      "classification": "external",
+      "registry": {
+        "exists": true,
+        "owner": "community",
+        "first_published": "2013-01-01",
+        "recently_published": false,
+        "source": "mock"
+      },
+      "fallback": {
+        "ecosystem": "npm",
+        "public_fallback_enabled": true,
+        "scope_reserved": false,
+        "pinned_index_only": false,
+        "evidence": [
+          "unscoped name resolves against the default registry (public fallback possible)"
+        ],
+        "exploitable": true
+      },
+      "verdict": "SAFE",
+      "priority": 4,
+      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
+      "evidence": [
+        "classification: external (well-known public package)",
+        "found in: samples/acme/bom.json:1 [sbom], samples/acme/package.json:1 [package.json]",
+        "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
+        "fallback: unscoped name resolves against the default registry (public fallback possible)"
       ]
     },
     {
@@ -504,132 +660,6 @@
         "found in: samples/acme/pyproject.toml:1 [pyproject.toml]",
         "public registry: EXISTS (owner=acme, first_published=2021-03-01, recent=False, src=mock)",
         "fallback: pip extra-index-url includes public PyPI (https://pypi.org/simple/); highest version wins across indexes"
-      ]
-    },
-    {
-      "name": {
-        "raw": "axios",
-        "normalized": "axios",
-        "ecosystem": "npm",
-        "scope": null,
-        "sources": [
-          {
-            "path": "samples/acme/package.json",
-            "line": 1,
-            "source_type": "package.json"
-          }
-        ]
-      },
-      "classification": "external",
-      "registry": {
-        "exists": true,
-        "owner": "community",
-        "first_published": "2013-01-01",
-        "recently_published": false,
-        "source": "mock"
-      },
-      "fallback": {
-        "ecosystem": "npm",
-        "public_fallback_enabled": true,
-        "scope_reserved": false,
-        "pinned_index_only": false,
-        "evidence": [
-          "unscoped name resolves against the default registry (public fallback possible)"
-        ],
-        "exploitable": true
-      },
-      "verdict": "SAFE",
-      "priority": 4,
-      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
-      "evidence": [
-        "classification: external (well-known public package)",
-        "found in: samples/acme/package.json:1 [package.json]",
-        "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
-        "fallback: unscoped name resolves against the default registry (public fallback possible)"
-      ]
-    },
-    {
-      "name": {
-        "raw": "chalk",
-        "normalized": "chalk",
-        "ecosystem": "npm",
-        "scope": null,
-        "sources": [
-          {
-            "path": "samples/acme/package.json",
-            "line": 1,
-            "source_type": "package.json"
-          }
-        ]
-      },
-      "classification": "external",
-      "registry": {
-        "exists": true,
-        "owner": "community",
-        "first_published": "2013-01-01",
-        "recently_published": false,
-        "source": "mock"
-      },
-      "fallback": {
-        "ecosystem": "npm",
-        "public_fallback_enabled": true,
-        "scope_reserved": false,
-        "pinned_index_only": false,
-        "evidence": [
-          "unscoped name resolves against the default registry (public fallback possible)"
-        ],
-        "exploitable": true
-      },
-      "verdict": "SAFE",
-      "priority": 4,
-      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
-      "evidence": [
-        "classification: external (well-known public package)",
-        "found in: samples/acme/package.json:1 [package.json]",
-        "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
-        "fallback: unscoped name resolves against the default registry (public fallback possible)"
-      ]
-    },
-    {
-      "name": {
-        "raw": "express",
-        "normalized": "express",
-        "ecosystem": "npm",
-        "scope": null,
-        "sources": [
-          {
-            "path": "samples/acme/package.json",
-            "line": 1,
-            "source_type": "package.json"
-          }
-        ]
-      },
-      "classification": "external",
-      "registry": {
-        "exists": true,
-        "owner": "community",
-        "first_published": "2013-01-01",
-        "recently_published": false,
-        "source": "mock"
-      },
-      "fallback": {
-        "ecosystem": "npm",
-        "public_fallback_enabled": true,
-        "scope_reserved": false,
-        "pinned_index_only": false,
-        "evidence": [
-          "unscoped name resolves against the default registry (public fallback possible)"
-        ],
-        "exploitable": true
-      },
-      "verdict": "SAFE",
-      "priority": 4,
-      "action": "No action needed: the name is legitimately public (well-known or org-owned).",
-      "evidence": [
-        "classification: external (well-known public package)",
-        "found in: samples/acme/package.json:1 [package.json]",
-        "public registry: EXISTS (owner=community, first_published=2013-01-01, recent=False, src=mock)",
-        "fallback: unscoped name resolves against the default registry (public fallback possible)"
       ]
     },
     {

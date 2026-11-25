@@ -99,6 +99,27 @@ def materialize_org(org: SyntheticOrg, repo_dir: Path, public_fallback: bool = T
            "    steps:\n"
            + "\n".join(steps) + "\n")
 
+    # --- CycloneDX SBOM (exercises the SBOM collector) ------------------- #
+    # Reference names already present elsewhere so the SBOM adds an extra source
+    # for them (merged by normalization) without changing the labeled verdicts.
+    def _purl(n):
+        if n.ecosystem == "pypi":
+            return f"pkg:pypi/{n.raw}@1.0.0"
+        if n.scope:
+            flat = n.raw.replace("@", "%40", 1)
+            return f"pkg:npm/{flat}@1.0.0"
+        return f"pkg:npm/{n.raw}@1.0.0"
+
+    sbom_names = org.names[:6]
+    components = [
+        {"type": "library", "name": n.raw, "purl": _purl(n)} for n in sbom_names
+    ]
+    _write(repo_dir / "bom.json", json.dumps({
+        "bomFormat": "CycloneDX",
+        "specVersion": "1.5",
+        "components": components,
+    }, indent=2) + "\n")
+
     # --- .npmrc (reserve the private scope) ------------------------------ #
     _write(repo_dir / ".npmrc",
            f"{org.private_scope}:registry={org.private_npm_registry}\n"
